@@ -1,0 +1,54 @@
+html {
+    font-size: 16px;
+}
+
+/* Font */
+
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1,h2,h3 {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+
+}
+
+.category {
+    font-size: 0.8rem;
+}
+
+
+/* Links */
+
+.btn svg {
+    fill: white;
+}
+
+.link {
+    color: black;
+    text-decoration: none;
+}
+
+.link:hover svg {
+    transition: ease all 0.5s;
+    fill:rgb(101, 24, 106);
+}
+
+
+/* templates */
+
+.card {
+    width: 22rem;
+}
+
+
+
+/* Gallery */
+
+.gallery img:hover {
+    cursor: pointer;
+}
