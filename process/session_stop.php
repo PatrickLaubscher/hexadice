@@ -4,9 +4,7 @@ require_once __DIR__ . '/../functions/general.php';
 Autoload::register();
 session_start();
 
-
-session_start ();
+session_unset();
 session_destroy();
-$_SESSION = [];
 
 redirect('../index.php');

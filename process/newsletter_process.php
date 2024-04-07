@@ -7,22 +7,14 @@ Autoload::register();
 
 
 if(isset($_POST) && !empty($_POST)) {
-
+    
     [
-        'feature' => $feature,
-        'table' => $tableTitle
+        'email' => $email,
     ] = $_POST;
 
+    $newEmail = new newsletterRegister($email);
     
-    $column = $tableTitle . '_name';
-    $db = Database::getInstance();
-    $query = "INSERT INTO $tableTitle ($column) VALUES (:feature)";
-    $stmt = $db->prepare($query);
-    $stmt->bindValue(':feature', $feature, PDO::PARAM_STR);
-    $stmt->execute();
-
-    
-/*     if($newEmail->isEmpty()) {
+    if($newEmail->isEmpty()) {
         redirect('../index.php?error=' . EMAIL_REQUIRED);
     }
 
@@ -39,7 +31,12 @@ if(isset($_POST) && !empty($_POST)) {
     } else {
         $newEmail->addEmail($email);
         redirect('../index.php?success=' . SUBSCRIPTION_NEWSLETTER);
-    } */
+    }
 
-    redirect('../admin.php');
-} 
+} else {
+    redirect('../index.php');
+}
+
+
+
+

@@ -12,16 +12,16 @@
                                 Je m'inscris !
                             </button>
                         </p>
-                        <div id="form-newsletter" class="row d-none d-flex justify-content-center mb-4 mx-3 p-3">
+                        <div id="form-newsletter" class="row d-none d-flex justify-content-center mb-2 mx-3 p-3">
                             <div class="col-6 d-flex flex-column align-items-center justify-content-center mb-4">
                                 <h3 class="mb-3" >Remplissez le formulaire ci-dessous :</h3>
-                                <form class="d-flex flex-column gap-2 align-items-center" method="POST" action="process/newsletter_post.php">
+                                <form class="d-flex flex-column gap-2 align-items-center" method="POST" action="process/newsletter_process.php">
                                         <label class="d-none" for="email">Email: </label>
                                         <input class="mb-2 form-control" type="email" name="email" id="email" placeholder="Saisissez votre email ici" size="50" required>
                                         <input id="btn-confirm" class="btn btn-primary" type="submit" value="Confirmer son inscription">
                                 </form>
                                 <div>
-                                    <button id="btn-remove" class="my-2">^</button>
+                                    <button id="btn-remove" class="mb-3 mt-4 btn btn-secondary">^</button>
                                 </div>  
                             </div>
                         </div>
@@ -36,6 +36,7 @@
                             reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?
                             Reiciendis assumenda iusto sapiente inventore animi?
                             </p>
+                            <a href="login_admin.php" class="text-white">Login-admin</a>
                         </div>
                         <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
                             <h5 class="text-uppercase">Links</h5>

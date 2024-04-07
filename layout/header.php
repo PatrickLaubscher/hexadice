@@ -41,7 +41,7 @@ if (isset($_GET['error'])) {
 }
 
 if (isset($_GET['validation'])) {
-    $successMsg = getValidationMsg(intval($_GET['validation']));
+    $validationMsg = getValidationMsg(intval($_GET['validation']));
     require_once __DIR__ . '/../templates/validation_prompt.php';
 }
 

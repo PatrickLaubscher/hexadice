@@ -14,7 +14,7 @@
             <a class="nav-link" href="contact.php" title="">Contactez-nous-svg</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="login.php" title="">login-svg</a>
+            <a class="nav-link" href="login_customer.php" title="">login-svg</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="about.php" title="">A propos</a>
@@ -26,7 +26,7 @@
             <?php
             if($_SESSION['employee'] === true){ ?>
             <li class="nav-item">
-            <a class="nav-link" href="admin.php" title="">Admin</a>
+            <a class="nav-link" href="admin/admin.php" title="">Admin</a>
             </li><?php } else if ($_SESSION['customer'] === true) { ?>
             <li class="nav-item">
             <a class="nav-link" href="customer.php" title="">Page client</a>

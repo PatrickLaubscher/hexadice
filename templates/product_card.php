@@ -1,18 +1,37 @@
+<?php 
 
+try {
+    $db = Database::getInstance();
+} catch (PDOException $e) {
+    echo "Erreur lors de la connexion à la base de données";
+    exit;
+}
+
+$idGame = $game['game_id'];
+$categoryList = $contentPage->getFeatureContentById($db, $idGame, 'category');
+asort($categoryList);
+
+?>
 
 <div class="mb-4 card py-0 d-flex flex-column align-items-center">
-    <div class="col-12">
-        <img src="<?php echo $product['image1'] ?>" class="card-img-top img-fluid" width="80px" height="80px" alt="<?php echo $product['name'] ?>">
+    <div class="card-img mt-3 d-flex justify-content-center">
+        <img src="uploads/products/<?php echo $game['game_sticker']?>" class="img-fluid" height="120" alt="<?php echo $game['game_name'] ?>">
     </div>
     <div class="card-body">
         <header>
-            <h2 class="card-title fs-5"><?php echo $product['name'] ?></h2>
+            <h3 class="card-title fs-5"><?php echo $game['game_name'] ?></h3>
         </header>
-        <p class="card-text">Some quick example text to build...</p>
-        <h4 class="category"><?php echo $product['category'] ?></h4>
-        <p>Prix de vente TTC <?php echo $product['price'] ?> €</p>
+        <p class="card-text"><?php echo substr($game['game_description'],0,60) . '...' ?></p>
+        <ul class="list-unstyled">
+            <?php foreach($categoryList as $category) { ?>
+                <li>
+                <?php echo $category['category_name'] ?>
+                </li>
+            <?php } ?>
+        </ul>
+        <p>Prix de vente TTC <?php echo $game['game_price'] ?> €</p>
         <div class="d-flex justify-content-between">
-            <a href="product.php?id=<?php echo $product['id'] ?>" class="btn btn-primary">Fiche</a>
+            <a href="page_game.php?id=<?php echo $game['game_id'] ?>" class="btn btn-primary">Fiche</a>
             <a href="#" class="btn btn-primary">Panier</a>
         </div>
     </div>

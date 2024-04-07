@@ -11,7 +11,7 @@ require_once __DIR__ . '/layout/header.php';
             <header><h1 class="mt-5 fs-5">Connectez-vous à votre compte client</h1></header>
             <div class="row my-5 d-flex justify-content-center">
                 <div class="col-lg-5">
-                    <form method="post" action="process/login_post.php">
+                    <form method="post" action="process/login_process_customer.php">
                         <div class="form-group mb-2">
                             <label for="email">Adresse mail</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Saisissez votre email" required>

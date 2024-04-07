@@ -6,7 +6,7 @@
                 <div class="container p-4 pb-0">
                     <div class="row d-flex justify-content-center mb-4">
                         <div class="col-lg-2 col-md-6 mb-4 mb-md-0 d-flex flex-column align-items-center">
-                            <a href="process/session_stop.php" class="text-white">Log out</a>
+                            <a href="../process/session_stop.php" class="text-white">Log out</a>
                         </div>
                     </div>
                     <div class="row d-flex justify-content-center">

@@ -11,7 +11,7 @@ require __DIR__ . '/data/products.php';
         <div class="row d-flex justify-content-center">
             <div class="col-8 mb-4 border p-5 d-flex flex-column justify-content-center">
                 <header><h2 class="fs-5 mb-5">Formulaire d'enregistrement</h2></header>
-                <form class="d-flex flex-column px-5" method="post" action="process/register_post.php">
+                <form class="d-flex flex-column px-5" method="post" action="process/register_process.php">
                     <div class="mb-4 form-group">
                         <label for="lastname">Votre nom :</label>
                         <input type="text" class="form-control" id="lastname" name="lastname">

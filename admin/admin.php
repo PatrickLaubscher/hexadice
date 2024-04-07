@@ -38,7 +38,7 @@ switch ($table) {
     case 'category':
         $featureTitle = "Catégories";
     break;
-    case 'language':
+    case 'languages':
         $featureTitle = "Langue";
     break;
     case 'editor':
@@ -128,7 +128,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                 <div class="col">
                     <h2 class="my-4 fs-4">Ajouter/modifier les listes d'informations complémentaires</h2>
                 </div>
-                <div class="col-8 mb-5 align-self-center border">
+                <div class="col-8 mb-5 p-3 align-self-center border">
                     <form>
                         <select name="featureTable">
                             <option value="">-- Choisir la liste à modifier --</option>
@@ -136,7 +136,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                             <option value="player_nb">Nombre de joueurs</option>
                             <option value="duration">Durée de jeu</option>
                             <option value="category">Catégories</option>
-                            <option value="language">Langue</option>
+                            <option value="languages">Langue</option>
                             <option value="editor">Editeurs</option>
                             <option value="author">Auteurs</option>
                             <option value="illustrator">Illustrateurs</option>
@@ -158,7 +158,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                         <?php } ?>
                     </ul>
                     <p>Ajouter un élément à cette liste: </p>
-                    <form method="post" action="process/feature_post.php">
+                    <form method="post" action="../process/feature_create.php">
                         <label class="d-none" for="feature"></label>
                         <input type="text" class="text-center" id="feature" name="feature">
                         <label class="d-none" for="table"></label>
@@ -203,12 +203,17 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                         <input type="submit" class="btn btn-secondary mb-4" value="Valider">
                     </form>
                 </div>
-
-                <div class="col-8 align-self-center border">
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row d-flex flex-column">
+                <div class="col-8 mb-5 align-self-center border">
                     <div class="col mb-4">
                         <h2 class="my-4 fs-5">2 - Informations générales du jeu</h2>
                     </div>
-                    <form class="d-flex flex-column"  method="post" action="../process/game_post.php">
+                    <form class="d-flex flex-column"  method="post" action="../process/game_create.php">
                         <div class="mb-4 form-group d-flex flex-column">
                             <label for="game_name">Nom du jeu: </label>
                             <input type="text" id="game_name" name="game_name" class="col-6">
@@ -223,7 +228,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                                 
                                 <div class="mb-4 form-group d-flex flex-column">
                                     <label for="game_price">Prix TTC: </label>
-                                    <input type="number" id="game_price" name="game_price" class="col-6">
+                                    <input type="number" id="game_price" name="game_price" max="1000" step="0.01" class="col-6">
                                 </div>
                                 <div class="mb-4 form-group d-flex flex-column">
                                     <label for="game_stock">Quantité en stock de départ: </label>
@@ -277,7 +282,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                                     <select name="game_editor" class="col-7">
                                         <option value="">-- Choisir un éditeur --</option>
                                         <?php foreach($editorList as $editor) { ?>
-                                            <option value="<?php echo $editor['editor_id'] ?>"><?php echo $language['editor_name'] ?></option>
+                                            <option value="<?php echo $editor['editor_id'] ?>"><?php echo $editor['editor_name'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -329,27 +334,58 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
 
                             </div>
 
-
-
-
-
-
-
-
                         </div>
-
-
-                        
-
-
-
                         <div class="my-5 form-group d-flex justify-content-center">
                             <input class="btn btn-primary" type="submit" value="Ajouter le jeu"> 
                         </div>
-                        
                     </form>
 
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row d-flex flex-column">
+
+                <div class="col-8 align-self-center border mb-5">
+                    <h3 class="my-4 fs-5">3 - Ajouter les images du jeu</h3>
+                    <form method="post" action="../process/upload_gamepictures.php" enctype="multipart/form-data">
+                        <div class="d-flex flex-column justify-content-center mx-5">
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_name">Saisir le nom du jeu: </label>
+                                <input type="text" id="game_name" name="game_name" class="text-center col-6">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_sticker">Image sticker: </label>
+                                <input type="file" name="game_sticker">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_picture1">Image 1: </label>
+                                <input type="file" name="game_picture1">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_picture2">Image 2: </label>
+                                <input type="file" name="game_picture2">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_picture3">Image 3: </label>
+                                <input type="file" name="game_picture3">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_picture4">Image 4: </label>
+                                <input type="file" name="game_picture4">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_picture5">Image 5: </label>
+                                <input type="file" name="game_picture5">
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-secondary mb-4" value="Valider">
+                    </form>
+                </div>
+
             </div>
         </div>
     </section>
