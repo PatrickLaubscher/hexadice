@@ -6,13 +6,13 @@
  * @param string $target
  * @return void
  */
-function redirect(string $target): void
+/* function redirect(string $target): void
 {
     header('Location: ' . $target);
     exit;
 }
-
-
+ */
+/* 
 function randomString(int $length): string
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -24,3 +24,4 @@ function randomString(int $length): string
 
     return $randomString;
 }
+ */

@@ -2,6 +2,13 @@
 $title="Backoffice";
 require_once __DIR__ . '/layout/header_admin.php';
 
+try {
+    $db = Database::getInstance();
+} catch (PDOException $e) {
+    echo "Erreur lors de la connexion à la base de données";
+    exit;
+}
+
 if(empty($_SESSION) || $_SESSION['employee'] === false) 
 {
     header('Location: index.php');
@@ -54,56 +61,26 @@ switch ($table) {
         $featureTitle = "Pas de liste choisie";
 }
 
+$contentPage = new GameContent($db);
+$featureList = new Feature($db);
 
-$db = Database::getInstance();
-$stmt = $db->prepare("SELECT * FROM age_mini");
-$stmt->execute();
-$ageList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($ageList);
+$ageList         = $featureList->getAllContentFeature('age_mini');
+$categoryList    = $featureList->getAllContentFeature('category');
+$playerList      = $featureList->getAllContentFeature('player_nb');
+$durationList    = $featureList->getAllContentFeature('duration');
+$languagesList   = $featureList->getAllContentFeature('languages');
+$editorList      = $featureList->getAllContentFeature('editor');
+$authorList      = $featureList->getAllContentFeature('author');
+$illustratorList = $featureList->getAllContentFeature('illustrator');
 
-$stmt = $db->prepare("SELECT * FROM player_nb");
-$stmt->execute();
-$playerList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($playerList);
-
-$stmt = $db->prepare("SELECT * FROM duration");
-$stmt->execute();
-$durationList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($durationList);
-
-$stmt = $db->prepare("SELECT * FROM languages");
-$stmt->execute();
-$languagesList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($languagesList);
-
-$stmt = $db->prepare("SELECT * FROM editor");
-$stmt->execute();
-$editorList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($editorList);
-
-$stmt = $db->prepare("SELECT * FROM category");
-$stmt->execute();
-$categoryList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($categoryList);
-
-$stmt = $db->prepare("SELECT * FROM author");
-$stmt->execute();
-$authorList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($authorList);
-
-$stmt = $db->prepare("SELECT * FROM illustrator");
-$stmt->execute();
-$illustratorList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-asort($illustratorList);
-
-$nbCategory = 1;
-$nbAuthor = 1;
+$nbCategory    = 1;
+$nbAuthor      = 1;
 $nbIllustrator = 1;
 
 if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllustrator'])) {
     [
-        'nbCategory' => $nbCategory,
-        'nbAuthor' => $nbAuthor,
+        'nbCategory'    => $nbCategory,
+        'nbAuthor'      => $nbAuthor,
         'nbIllustrator' => $nbIllustrator
     ] = $_GET;
 }
@@ -126,9 +103,10 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
         <div class="container">
             <div class="row d-flex flex-column">
                 <div class="col">
-                    <h2 class="my-4 fs-4">Ajouter/modifier les listes d'informations complémentaires</h2>
+                    <h2 class="mt-4 fs-4">Ajouter/modifier les listes d'informations complémentaires</h2>
+                    <button id="btn-section1" class="btn btn-secondary">></button>
                 </div>
-                <div class="col-8 mb-5 p-3 align-self-center border">
+                <div id="section1" class="col-8 mb-5 p-3 align-self-center d-none border">
                     <form>
                         <select name="featureTable">
                             <option value="">-- Choisir la liste à modifier --</option>
@@ -166,7 +144,9 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                         <input type="submit" value="Ajouter">
                     </form>
                         <?php } ?>
-                
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-section1-remove" class="btn btn-secondary">^</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,12 +158,15 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
         <div class="container">
             <div class="row d-flex flex-column">
                 <div class="col mb-4">
-                    <h2 class="my-4 fs-4">Ajouter un jeu au catalogue</h2>
+                    <h2 class="my-4 fs-4">Gérer les jeux du catalogue</h2>
                 </div>
+                <h3 class="my-4 fs-5 d-flex flex-column gap-3">
+                        <span>1 - Configuration avant ajout/modif de jeu</span>
+                        Choisir le nombre de catégories, d'auteurs et d'illustrateurs :
+                    </h3>
                 <div class="col-8 align-self-center border mb-5">
-                    <h3 class="my-4 fs-5">1 - Choisir le nombre de catégories, d'auteurs et d'illustrateurs :</h3>
-                    <form>
-                        <div class="d-flex">
+                    <form class="mt-4">
+                        <div class="d-flex mx-5">
                             <div class="mb-4 form-group d-flex flex-column">
                                 <label for="nbCategory">Nombre de catégorie(s): </label>
                                 <input type="number" id="nbCategory" name="nbCategory" 
@@ -200,7 +183,9 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                                 value="<?php echo $nbIllustrator ?>" placeholder="<?php echo $nbIllustrator ?>" class="text-center col-4">
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-secondary mb-4" value="Valider">
+                        <div class="my-2 form-group d-flex justify-content-center">
+                            <input type="submit" class="btn btn-primary mb-4" value="Valider">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -209,21 +194,27 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
     <section>
         <div class="container">
             <div class="row d-flex flex-column">
-                <div class="col-8 mb-5 align-self-center border">
-                    <div class="col mb-4">
-                        <h2 class="my-4 fs-5">2 - Informations générales du jeu</h2>
-                    </div>
+                <div class="col mb-4">
+                    <h2 class="my-4 fs-5">2- Ajouter un nouveau jeu</h2>
+                    <button id="btn-section2" class="btn btn-secondary">></button>
+                </div>
+                <div id="section2" class="col-8 align-self-center border d-none">
+    
                     <form class="d-flex flex-column"  method="post" action="../process/game_create.php">
-                        <div class="mb-4 form-group d-flex flex-column">
+                        <div class="mb-4 mx-5 form-group d-flex flex-column">
                             <label for="game_name">Nom du jeu: </label>
                             <input type="text" id="game_name" name="game_name" class="col-6">
                         </div>
-                        <div class="mb-4 form-group d-flex flex-column">
+                        <div class="mb-4 mx-5 form-group d-flex flex-column">
                             <label for="game_description">Description: </label>
-                            <textarea id="game_description" name="game_description" rows="8" cols="50"></textarea>
+                            <textarea id="editor" name="game_description" rows="8" cols="50"></textarea>
+                        </div>
+                        <div class="mb-4 mx-5 form-group d-flex flex-column">
+                            <label for="game_short">Short description: </label>
+                            <input name="game_short" id="game_short" rows="5">
                         </div>
                         
-                        <div class="d-flex">
+                        <div class="d-flex mx-5">
                             <div class="col">
                                 
                                 <div class="mb-4 form-group d-flex flex-column">
@@ -266,7 +257,6 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                             </div>
 
                             <div class="col">
-
                                 <div class="mb-4 form-group d-flex flex-column">
                                     <label for="game_language">Langue du jeu: </label>
                                     <select name="game_language" class="col-6">
@@ -319,7 +309,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
 
                                 <div class="mb-4 form-group d-flex flex-column">
                                     <label for="game_illustrator">Illustrateur(s) du jeu: </label>
-                                    <?php for($i = 0; $i < $nbAuthor; $i++) {?>
+                                    <?php for($i = 0; $i < $nbIllustrator; $i++) {?>
                                     <div id="author">
                                     <span><?php echo $i+1 ?>-</span>
                                         <select name="game_illustrator[]" class="col-7">
@@ -339,7 +329,9 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                             <input class="btn btn-primary" type="submit" value="Ajouter le jeu"> 
                         </div>
                     </form>
-
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-section2-remove" class="btn btn-secondary">^</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -348,9 +340,11 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
     <section>
         <div class="container">
             <div class="row d-flex flex-column">
-
-                <div class="col-8 align-self-center border mb-5">
-                    <h3 class="my-4 fs-5">3 - Ajouter les images du jeu</h3>
+                <div class="col mb-4">
+                    <h3 class="my-4 fs-5">3 - Ajouter/modifier les images du jeu</h3>
+                    <button id="btn-section3" class="btn btn-secondary">></button>
+                </div>
+                <div id="section3" class="col-8 align-self-center border mb-5 d-none">
                     <form method="post" action="../process/upload_gamepictures.php" enctype="multipart/form-data">
                         <div class="d-flex flex-column justify-content-center mx-5">
                             <div class="mb-4 form-group d-flex flex-column">
@@ -382,13 +376,195 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                                 <input type="file" name="game_picture5">
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-secondary mb-4" value="Valider">
+                        <div class="my-5 form-group d-flex justify-content-center">
+                            <input type="submit" class="btn btn-primary mb-4" value="Valider">
+                        </div>
                     </form>
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-section3-remove" class="btn btn-secondary">^</button>
+                    </div>
                 </div>
 
             </div>
         </div>
     </section>
+
+    
+    <section>
+        <div class="container">
+            <div class="row d-flex flex-column">
+            <div class="col mb-4">
+                    <h3 class="my-4 fs-5">4 - Modifier le contenu d'un jeu</h3>
+                    <button id="btn-section4" class="btn btn-secondary">></button>
+                </div>                               
+                <div id="section4" class="col-8 align-self-center border mb-5 d-none">
+                    <form method="post" action="../process/game_modify.php" enctype="multipart/form-data">
+                        <div class="d-flex flex-column justify-content-center mx-5">
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_name">Saisir le nom du jeu: </label>
+                                <input type="text" id="game_name" name="game_name" class="text-center col-6">
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_description">Description: </label>
+                                <textarea id="editor" name="game_description" rows="8" cols="50"></textarea>
+                            </div>
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_short">Short description: </label>
+                                <input name="game_short" id="game_short" rows="5">
+                            </div>
+                        </div>
+
+                        <div class="d-flex mx-5">
+                            <div class="col">
+                                
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_price">Prix TTC: </label>
+                                    <input type="number" id="game_price" name="game_price" max="1000" step="0.01" class="col-6">
+                                </div>
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_age_mini">Âge minimum: </label>
+                                    <select name="game_age_mini" class="col-6">
+                                        <option value="">-- Choisir un âge --</option>
+                                        <?php foreach($ageList as $age) { ?>
+                                            <option value="<?php echo $age['age_mini_id'] ?>"><?php echo $age['age_mini_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_player">Nombre de joueurs: </label>
+                                    <select name="game_player" class="col-6">
+                                        <option value="">-- Choisir un nombre --</option>
+                                        <?php foreach($playerList as $player) { ?>
+                                            <option value="<?php echo $player['player_nb_id'] ?>"><?php echo $player['player_nb_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_duration">Durée d'une partie: </label>
+                                    <select name="game_duration" class="col-6">
+                                        <option value="">-- Choisir une durée --</option>
+                                        <?php foreach($durationList as $duration) { ?>
+                                            <option value="<?php echo $duration['duration_id'] ?>"><?php echo $duration['duration_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+
+                                
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_language">Langue du jeu: </label>
+                                    <select name="game_language" class="col-6">
+                                        <option value="">-- Choisir une langue --</option>
+                                        <?php foreach($languagesList as $language) { ?>
+                                            <option value="<?php echo $language['languages_id'] ?>"><?php echo $language['languages_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col">
+
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_editor">Editeur du jeu: </label>
+                                    <select name="game_editor" class="col-7">
+                                        <option value="">-- Choisir un éditeur --</option>
+                                        <?php foreach($editorList as $editor) { ?>
+                                            <option value="<?php echo $editor['editor_id'] ?>"><?php echo $editor['editor_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_category">Catégorie(s) du jeu: </label>
+                                    <?php for($i = 0; $i < $nbCategory; $i++) {?>
+                                    <div>
+                                    <span><?php echo $i+1 ?>-</span>
+                                        <select name="game_category[]" class="col-7">
+                                            <option value="">-- Choisir une catégorie --</option>
+                                            <?php foreach($categoryList as $category) { ?>
+                                                <option value="<?php echo $category['category_id'] ?>"><?php echo $category['category_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_author">Auteur(s) du jeu: </label>
+                                    <?php for($i = 0; $i < $nbAuthor; $i++) {?>
+                                    <div id="author">
+                                    <span><?php echo $i+1 ?>-</span>
+                                        <select name="game_author[]" class="col-7">
+                                            <option value="">-- Choisir un auteur --</option>
+                                            <?php foreach($authorList as $author) { ?>
+                                                <option value="<?php echo $author['author_id'] ?>"><?php echo $author['author_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+
+                                <div class="mb-4 form-group d-flex flex-column">
+                                    <label for="game_illustrator">Illustrateur(s) du jeu: </label>
+                                    <?php for($i = 0; $i < $nbIllustrator; $i++) {?>
+                                    <div id="author">
+                                    <span><?php echo $i+1 ?>-</span>
+                                        <select name="game_illustrator[]" class="col-7">
+                                            <option value="">-- Choisir un illustrateur --</option>
+                                            <?php foreach($illustratorList as $illustrator) { ?>
+                                                <option value="<?php echo $illustrator['illustrator_id'] ?>"><?php echo $illustrator['illustrator_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="my-5 form-group d-flex justify-content-center">
+                            <input type="submit" class="btn btn-primary mb-4" value="Valider">
+                        </div>                              
+
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-section4-remove" class="btn btn-secondary">^</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row d-flex flex-column">
+                <div class="col mb-4">
+                    <h3 class="my-4 fs-5">5 - Supprimer un jeu du catalogue</h3>
+                    <button id="btn-section5" class="btn btn-secondary">></button>
+                </div>                               
+                <div id="section5" class="col-8 align-self-center border mb-5 d-none">
+                    <form method="post" action="../process/game_check_delete.php" enctype="multipart/form-data">
+                        <div class="d-flex flex-column justify-content-center mx-5">
+                            <div class="mb-4 form-group d-flex flex-column">
+                                <label for="game_name">Saisir le nom du jeu: </label>
+                                <input type="text" id="game_name" name="game_name" class="text-center col-6">
+                            </div>
+                        <div class="my-5 form-group d-flex justify-content-center">
+                            <input type="submit" class="btn btn-primary mb-4" value="Valider">
+                        </div>                              
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-section5-remove" class="btn btn-secondary">^</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
 
 

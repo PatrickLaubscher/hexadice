@@ -1,6 +1,5 @@
 <?php 
     require_once __DIR__ . '/../../classes/Autoload.php';
-    require_once __DIR__ . '/../../functions/general.php';
     require_once __DIR__ . '/../../functions/error_register.php';
     require_once __DIR__ . '/../../functions/validation_register.php';
     Autoload::register();
@@ -20,8 +19,9 @@
     <link href="../assets/css/aos.css" rel="stylesheet">
     <link href="../assets/css/owl.carousel.min.css" rel="stylesheet">
     <link href="../assets/css/owl.theme.default.min.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/s9pzcl46kxodsbikcm97knhvgzrae7wfa4she8q65kk5cmg1/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> 
     <script src="../assets/js/jquery-3.7.1.min.js"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>       
     <script src="../assets/js/aos.js"></script>
     <script src="../assets/js/owl.carousel.min.js"></script>
     <script src="../assets/js/main.js" defer></script>

@@ -10,6 +10,7 @@ const INPUT_MISSING = 7;
 const ERROR_PASSWORD = 8;
 const ERROR_LOGIN = 9;
 const ERROR_UPLOAD_FILES = 10;
+const GAME_NOT_FOUND = 11;
 
 
 
@@ -42,6 +43,9 @@ function getErrorMsg(int $int): string
         break;
         case ERROR_LOGIN:
             $msg = "Le login saisi n'est pas correct";
+        break;
+        case GAME_NOT_FOUND:
+            $msg = "Le jeu n'a pas été trouvé";
         break;
         default:
             $msg = "Une erreur est survenue";

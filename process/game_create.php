@@ -1,29 +1,37 @@
 <?php
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/general.php';
 require_once __DIR__ . '/../functions/error_register.php';
 require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
 
+
 if(empty($_POST)) {
-    redirect('../admin/admin.php?error=' . FORM_EMPTY);
+    Controller::redirect('../admin/admin.php?error=' . FORM_EMPTY);
 }
 
 
+foreach($_POST as $data) {
+    if(empty($data)) {
+        Controller::redirect('../admin/admin.php?error=' . INPUT_MISSING);
+    }
+}
 
 [
-    'game_name' => $name,
+    'game_name'        => $name,
     'game_description' => $description,
-    'game_price' => $price,
-    'game_stock' => $stock,
-    'game_age_mini' => $age,
-    'game_duration' => $duration,
-    'game_player' => $player,
-    'game_language' => $language,
-    'game_category' => $categoryIdList,
-    'game_author' => $authorIdList,
+    'game_short'       => $short,
+    'game_price'       => $price,
+    'game_stock'       => $stock,
+    'game_age_mini'    => $age,
+    'game_duration'    => $duration,
+    'game_player'      => $player,
+    'game_language'    => $language,
+    'game_editor'      => $editor,
+    'game_category'    => $categoryIdList,
+    'game_author'      => $authorIdList,
     'game_illustrator' => $illustratorIdList
+
 ] = $_POST;
 
 
@@ -35,18 +43,20 @@ try {
 }
 
 $query = "INSERT INTO game (
-    game_name, game_description, game_price, game_quantity, id_age_mini, id_duration, id_player_nb, id_languages) 
-    VALUES (:game_name, :game_description, :game_price, :game_quantity, :id_age_mini, :id_duration, :id_player_nb, :id_languages)";
+    game_name, game_description, game_short, game_price, game_quantity, id_age_mini, id_duration, id_player_nb, id_languages, id_editor) 
+    VALUES (:game_name, :game_description, :game_short, :game_price, :game_quantity, :id_age_mini, :id_duration, :id_player_nb, :id_languages, :id_editor)";
     
 $stmt = $db->prepare($query);
 $stmt->bindValue(':game_name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':game_description', $description, PDO::PARAM_STR);
+$stmt->bindValue(':game_short', $short, PDO::PARAM_STR);
 $stmt->bindValue(':game_price', $price, PDO::PARAM_STR);
 $stmt->bindValue(':game_quantity', $stock, PDO::PARAM_INT);
 $stmt->bindValue(':id_age_mini', intval($age), PDO::PARAM_INT);
 $stmt->bindValue(':id_duration', intval($duration), PDO::PARAM_INT);
 $stmt->bindValue(':id_player_nb', intval($player), PDO::PARAM_INT);
 $stmt->bindValue(':id_languages', intval($language), PDO::PARAM_INT);
+$stmt->bindValue(':id_editor', intval($editor), PDO::PARAM_INT);
 $stmt->execute();
 
 
@@ -84,5 +94,9 @@ foreach ($illustratorIdList as $idIllustrator) {
 }
 
 
-redirect('../admin/admin.php?validation=' . GAME_ADDED);
+Controller::redirect('../admin/admin.php?validation=' . GAME_ADDED);
+
+   
+
+
 

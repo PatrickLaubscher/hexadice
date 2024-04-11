@@ -2,22 +2,16 @@
 $title = "Accueil";
 require_once __DIR__ . '/layout/header.php';
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    echo "Erreur lors de la connexion à la base de données";
-    exit;
-}
+$contentPage = new GameContent($db);
+$featureList = new Feature($db);
+$gameList = $contentPage->getAllContent();
+$categoryList = $featureList->getAllContentFeature('category');
+$editorList = $featureList->getAllContentFeature('editor');
 
-$contentPage = new GameContent();
-$gameList = $contentPage->getAllContent($db);
-$categoryList = $contentPage->getAllContentFeature($db, 'category');
-$editorList = $contentPage->getAllContentFeature($db, 'editor');
-
+$gameListResult=[];
+$noFindResult = false;
 
 if(isset($_GET) && !empty($_GET)) {
-
-    $gameList = [];
 
 
     if(!empty($_GET['name_search'])) {
@@ -34,8 +28,12 @@ if(isset($_GET) && !empty($_GET)) {
         foreach($gameListByName as $game) {
             if (str_contains($game['game_name'], $gameName)){
                 $foundId = $game['game_id'];
-                $gameList[] = $contentPage->getAllContentById($db, $foundId);
+                $gameListResult[] = $contentPage->getAllContentById($foundId);
             } 
+        } 
+
+        if (empty($gameListResult)){
+            $noFindResult = true;
         }
         
     }
@@ -66,26 +64,39 @@ if(isset($_GET) && !empty($_GET)) {
             $game_name = $game['game_name'];
             $stmt = $db->prepare("SELECT * FROM game WHERE game_name = '$game_name'");
             $stmt->execute();
-            $gameList[] = $stmt->fetch(PDO::FETCH_ASSOC);
+            $gameListResult[] = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        if (empty($gameListResult)){
+            $noFindResult = true;
         }
 
     }
 
+    if (!empty($gameListResult)){
 
-    for ($i = 0; $i < count($gameList) - 1; $i++)
-    {
-        for ($j = $i+1; $j < count($gameList); $j++) {
-            if($gameList[$i]['game_name'] == $gameList[$j]['game_name']){
-                array_splice($gameList, $i, 1);
+        for ($i = 0; $i < count($gameListResult) - 1; $i++)
+        {
+            for ($j = $i+1; $j < count($gameListResult); $j++) {
+                if($gameListResult[$i]['game_name'] == $gameListResult[$j]['game_name']){
+                    array_splice($gameListResult, $i, 1);
+                }
             }
+    
         }
-
     }
+
     
 }
 
 $itemPerPage = 6;
-$pagination = new Pagination($itemPerPage, $gameList);
+
+if(!empty($gameListResult)){
+    $pagination = new Pagination($itemPerPage, $gameListResult);
+} else {
+    $pagination = new Pagination($itemPerPage, $gameList);
+}   
+
 
 ?>
 
@@ -94,8 +105,12 @@ $pagination = new Pagination($itemPerPage, $gameList);
     <section class="section">
         <div class="container">        
             <div class="row">
-                <div class="col ps-5 ms-2 mt-2">
-                    <button id="btn-display-search" class="btn btn-secondary fs-5">Je cherche un jeu svg-loupe</button>
+                <div class="col mt-4">
+                    <button id="btn-display-search" class="btn btn-secondary d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
             <div id="search-field" class="row  d-none">
@@ -159,10 +174,10 @@ $pagination = new Pagination($itemPerPage, $gameList);
 
             <div class="row gap-1 d-flex flex-md-row align-items-stretch justify-content-around">
 
-                <?php
-                    if (empty($gameList)) {
-                        echo "Jeu non trouvé :(";
-                    } else {
+                <?php if ( $noFindResult === true) { ?>
+                        <p class="fs-1">Jeu non trouvé </p>
+
+                <?php    } else {
                         foreach ($pagination->getArrayPage() as $game){
                             require __DIR__ . '/templates/product_card.php';
                         }

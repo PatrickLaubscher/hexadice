@@ -1,6 +1,8 @@
 <?php
 
-class newsletterRegister
+
+
+class Email 
 {
 
     public function __construct(
@@ -12,9 +14,10 @@ class newsletterRegister
     /**
      * check is input is empty
      *
+     * @param string $email
      * @return boolean
      */
-    public function isEmpty (): bool
+    function isEmpty (): bool
     {
         return empty($this->email) ? true : false;
     }
@@ -23,6 +26,7 @@ class newsletterRegister
     /**
      * check email if format is correct
      *
+     * @param string $email
      * @return boolean
      */
     function isEmail (): bool
@@ -32,8 +36,9 @@ class newsletterRegister
 
 
     /**
-     * Check email address if it's spam, redirect to given location
+     * Check email address if it's spam
      *
+     * @param string $mail 
      * @return bool
      */
     function isSpam (): bool
@@ -48,44 +53,37 @@ class newsletterRegister
 
 
     /**
-     * verify if email is already in newsletter_list table
+     * verify if email is already in emails list
      *
+     * @param string $mail
      * @return boolean
      */
-    function isDuplicate (): bool
+    function isDuplicateMailingList (object $db): bool
     {
-        $db = Database::getInstance();
-        $query = 'SELECT newsletter_list_email FROM newsletter_list';
+        $query = 'SELECT newsletter_list_email FROM newsletter_list WHERE newsletter_list_email = :email';
         $stmt = $db->prepare($query);
-        $stmt->execute();
-        $emailsList = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        return (in_array($this->email, $emailsList) ? true : false);
+        $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+        
+        return ($stmt->execute() ? true : false);
     }
 
 
     /**
-     * add email into newsletter_list table
-     * 
+     * Add email in emails list 
+     *
+     * @param string $mail
      * @return boolean
      */
-    public function addEmail (): bool
+    function addEmail (object $db): bool
     {
-        
-        $db = Database::getInstance();
-        $query = 'INSERT INTO newsletter_list (newsletter_list_email) VALUES (:email)';
+        $query = 'INSERT INTO newsletter_list(newsletter_list_email) VALUES (:email)';
         $stmt = $db->prepare($query);
         $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
-    
-        return $stmt->execute();
-
+        
+        return ($stmt->execute() ? true : false);
     }
-    
-    
-    
+
+
+
+
 }
-
-
-
-
-

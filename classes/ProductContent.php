@@ -1,20 +1,18 @@
 <?php
 
-abstract class ProductContent
+interface ProductContent
 {
-    
-
 
     /**
      * Find all product content
      */
-    abstract public function getAllContent(object $db): array; 
+    public function getAllContent(): array; 
 
 
     /**
      * Find product content by id
      */
-    abstract public function getAllContentById(object $db, int $id): array; 
+    public function getAllContentById(int $id): array; 
 
 
 }

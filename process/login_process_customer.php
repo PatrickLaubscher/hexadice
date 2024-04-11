@@ -1,68 +1,54 @@
 <?php
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/general.php';
 require_once __DIR__ . '/../functions/error_register.php';
 require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 session_start();
 
-
-if (empty($_POST['email']) || empty($_POST['password'])) {
-    redirect('../login_customer.php?error=' . INPUT_MISSING);
-}
-
-[
-    'email' => $email,
-    'password' => $password
-] = $_POST;
-
-
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {
-    redirect('../index.php?error=' . CONNEXION_BBD);
-    exit;
+    Controller::redirect('../index.php?error=' . CONNEXION_BBD);
 }
 
+$isVerify = false;
 
-$query = "SELECT * FROM customer WHERE customer_email = :email";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':email', $email, PDO::PARAM_STR);
-$stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-if ($row && password_verify($password, $row['customer_pwd'])) {
-    $isCustomer = true;
-} 
+if(isset($_POST) && !empty($_POST)) {
 
-if ($isCustomer) {
-    $_SESSION['login'] = $email;
-    $_SESSION['employee'] = false;
-    $_SESSION['customer'] = true;
-    redirect("Location: ../customer.php");
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+        Controller::redirect('../index.php?error=' . INPUT_MISSING);
+    }
+
+    [
+        'email'    => $email,
+        'password' => $password
+    ] = $_POST;
+
+    $login = new Login($db);
+    $customerFound = $login->findCustomer($email); 
+
+    if(empty($customerFound)) {
+        Controller::redirect('../login_customer.php?error=' . ERROR_LOGIN);
+    }
+
+    if ($customerFound && password_verify($password, $customerFound['customer_pwd'])) {
+        $isVerify = true;
+    } else {
+        Controller::redirect('../login_customer.php?error=' . ERROR_PASSWORD);
+    }
+
+    if ($isVerify === true) {
+
+        extract($customerFound);
+        $_SESSION['customer_nb'] = $customer_id;
+        $_SESSION['firstname'] = $customer_firstname;
+        $_SESSION['lastname']  = $customer_lastname;
+        $_SESSION['email']     = $email;
+        $_SESSION['customer']  = true;
+        $_SESSION['employee']  = false;
+        Controller::redirect("../page_customer.php");
+    } 
+
+    } else {
+    Controller::redirect('../index.php');
 }
-
-if ($_SESSION['employee']) {
-    header("Location: ../admin.php");
-}
-else { 
-
-    
-?>
-
-<main>
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p>Vous n'avez pas été reconnu(e)</p>
-                    <p><a href="../login.php">Nouvel essai</p>
-        <?php } ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-</main>
-
-
