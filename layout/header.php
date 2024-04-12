@@ -1,16 +1,10 @@
 <?php
+    session_start();
     require_once __DIR__ . '/../classes/Autoload.php';
     require_once __DIR__ . '/../functions/error_register.php';
     require_once __DIR__ . '/../functions/validation_register.php';
     Autoload::register();
-    session_start();
-
-    try {
-        $db = Database::getInstance();
-    } catch (PDOException $e) {
-        echo "Erreur de connexion à la base de données";
-        exit;
-    }
+     
 ?>
 
 <!DOCTYPE html>
@@ -42,15 +36,26 @@
 <?php 
     require_once __DIR__ . '/nav.php';
 
-    if (isset($_GET['error'])) {
-        $errorMsg = getErrorMsg(intval($_GET['error']));
+    if (!empty($_SESSION['error'])) {
+        $errorMsg = ErrorRegister::getErrorMsg(intval($_SESSION['error']));
         require_once __DIR__ . '/../templates/error_prompt.php';
     }
 
-    if (isset($_GET['validation'])) {
-        $validationMsg = getValidationMsg(intval($_GET['validation']));
+    if (!empty($_SESSION['validation'])) {
+        $validationMsg = ValidationRegister::getValidationMsg(intval($_SESSION['validation']));
         require_once __DIR__ . '/../templates/validation_prompt.php';
     }
+
+    $_SESSION['error'] = [];
+    $_SESSION['validation'] = [];
+
+    try {
+        $db = Database::getInstance();
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 1;
+        exit;
+    }
+
 
 
 ?>

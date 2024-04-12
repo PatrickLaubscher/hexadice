@@ -1,9 +1,10 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
 require_once __DIR__ . '/../functions/error_register.php';
 require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
-session_start();
+
 
 
 if(!empty($_POST)) {
@@ -33,7 +34,8 @@ if(!empty($_POST)) {
         $_SESSION['cart'][] = ['game_id' => $game_id, 'qty' => 1];
     }
 
-    Controller::redirect('../index.php?validation=' . PRODUCT_ADD);
+    $_SESSION['validation'] = 8;
+    Controller::redirect('../index.php');
 
 
 } else {

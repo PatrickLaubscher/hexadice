@@ -8,6 +8,12 @@ if(empty($_POST)) {
     Controller::redirect('../admin/admin.php?error=' . FORM_EMPTY);
 }
 
+foreach($_POST as $data) {
+    if(empty($data)) {
+        Controller::redirect('../admin/admin.php?error=' . INPUT_MISSING);
+    }
+}
+
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {

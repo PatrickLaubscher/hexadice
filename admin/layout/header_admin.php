@@ -1,9 +1,9 @@
-<?php 
+<?php
+    session_start();
     require_once __DIR__ . '/../../classes/Autoload.php';
     require_once __DIR__ . '/../../functions/error_register.php';
     require_once __DIR__ . '/../../functions/validation_register.php';
     Autoload::register();
-    session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,28 +32,40 @@
 
 <header>
 
-<?php require_once __DIR__ . '/nav_admin.php';
+<?php 
 
+    require_once __DIR__ . '/nav_admin.php';
 
-if (isset($_GET['error'])) {
-    $errorMsg = getErrorMsg(intval($_GET['error']));
-    require_once __DIR__ . '/../../templates/error_prompt.php';
-}
+    if (!empty($_SESSION['error'])) {
+        $errorMsg = ErrorRegister::getErrorMsg(intval($_SESSION['error']));
+        require_once __DIR__ . '/../../templates/error_prompt.php';
+    }
 
-if (isset($_GET['error_upload'])) {
-    $errorMsg = getErrorUploadMsg(intval($_GET['error_upload']));
-    require_once __DIR__ . '/../../templates/error_prompt.php';
-}
+    if (!empty($_SESSION['error_upload'])) {
+        $errorMsg = ErrorRegister::getErrorUploadMsg(intval($_SESSION['error_upload']));
+        require_once __DIR__ . '/../../templates/error_prompt.php';
+    }
 
-if (isset($_GET['validation'])) {
-    $validationMsg = getValidationMsg(intval($_GET['validation']));
-    require_once __DIR__ . '/../../templates/validation_prompt.php';
-}
+    if (!empty($_SESSION['validation'])) {
+        $validationMsg = ValidationRegister::getValidationMsg(intval($_SESSION['validation']));
+        require_once __DIR__ . '/../templates/validation_prompt.php';
+    }
 
-if (isset($_GET['validation_upload']) && isset($_GET['files_upload'])) {
-    $validationMsg = getValidationUploadMsg(intval($_GET['validation_upload']), intval($_GET['files_upload']));
-    require_once __DIR__ . '/../../templates/validation_prompt.php';
-}
+    if (!empty($_SESSION['validation_upload']) && !empty($_SESSION['files_upload'])) {
+        $validationMsg = ValidationRegister::getValidationUploadMsg(intval($_SESSION['validation_upload']), intval($_SESSION['files_upload']));
+        require_once __DIR__ . '/../../templates/validation_prompt.php';
+    }
+
+    $_SESSION['error'] = [];
+    $_SESSION['validation'] = [];
+
+    try {
+        $db = Database::getInstance();
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 1;
+        exit;
+    }
+
 
 ?>
 

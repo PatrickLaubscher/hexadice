@@ -1,9 +1,7 @@
 <?php
-require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
-Autoload::register();
 session_start();
+require_once __DIR__ . '/../classes/Autoload.php';
+Autoload::register();
 
 
 if(!empty($_POST)) {
@@ -16,13 +14,13 @@ if(!empty($_POST)) {
     foreach($_SESSION['cart'] as $key => $item) {
 
         if($game_id === $item['game_id']) {
-
             array_splice($_SESSION['cart'], $key, 1);
             break;
         } 
     };
 
-    Controller::redirect('../shopping_cart?validation=' . DELETE_PRODUCT);
+    $_SESSION['validation'] = 10;
+    Controller::redirect('../shopping_cart.php');
 
 
 } else {

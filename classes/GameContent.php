@@ -12,6 +12,51 @@ class GameContent implements ProductContent
 
     }
 
+
+
+    /**
+     * Insert new game in table game
+     * 
+     * 
+     * @return bool 
+     */
+    public function createNewGame (
+        string $name, 
+        string $description, 
+        string $short, 
+        string $price, 
+        int $stock, 
+        string $age, 
+        string $duration,
+        string $player,
+        string $language,
+        string $editor
+        ): bool 
+    {
+        $query = "INSERT INTO game (
+            game_name, game_description, game_short, game_price, game_quantity, id_age_mini, id_duration, 
+            id_player_nb, id_languages, id_editor) 
+            VALUES (:game_name, :game_description, :game_short, :game_price, :game_quantity, :id_age_mini, :id_duration, 
+            :id_player_nb, :id_languages, :id_editor)";
+            
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':game_name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':game_description', $description, PDO::PARAM_STR);
+        $stmt->bindValue(':game_short', $short, PDO::PARAM_STR);
+        $stmt->bindValue(':game_price', $price, PDO::PARAM_STR);
+        $stmt->bindValue(':game_quantity', $stock, PDO::PARAM_INT);
+        $stmt->bindValue(':id_age_mini', intval($age), PDO::PARAM_INT);
+        $stmt->bindValue(':id_duration', intval($duration), PDO::PARAM_INT);
+        $stmt->bindValue(':id_player_nb', intval($player), PDO::PARAM_INT);
+        $stmt->bindValue(':id_languages', intval($language), PDO::PARAM_INT);
+        $stmt->bindValue(':id_editor', intval($editor), PDO::PARAM_INT);
+        
+        return $stmt->execute();
+
+    }
+
+
+
     /**
      * Give all products content list 
      * 

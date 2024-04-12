@@ -23,5 +23,24 @@ class Author extends Feature
         return $stmt->execute();
     }
 
+    
+    /**
+     * insert new row in game_author_list 
+     * 
+     * @param int $gameId
+     * @param int $authorId
+     * @return bool
+     */
+    public function addGameAuthorList (int $gameId, int $authorId): bool
+    {
+
+        $query = "INSERT INTO game_author_list (id_game, id_author) VALUES (:id_game, :id_author)";  
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_game', $gameId, PDO::PARAM_INT);
+        $stmt->bindValue(':id_author', intval($authorId), PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
 
 }

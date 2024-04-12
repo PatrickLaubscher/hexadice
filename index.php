@@ -1,7 +1,6 @@
-<?php
+<?php 
 $title = "Accueil";
 require_once __DIR__ . '/layout/header.php';
-
 $contentPage = new GameContent($db);
 $featureList = new Feature($db);
 $gameList = $contentPage->getAllContent();

@@ -24,4 +24,23 @@ class Illustrator extends Feature
     }
 
 
+    /**
+     * insert new row in game_illustrator_list 
+     * 
+     * @param int $gameId
+     * @param int $illustratoId
+     * @return bool
+     */
+    public function addGameIllustratorList (int $gameId, int $illustratorId): bool
+    {
+
+        $query = "INSERT INTO game_illustrato_list (id_game, id_illustrator) VALUES (:id_game, :id_illustrator)";  
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_game', $gameId, PDO::PARAM_INT);
+        $stmt->bindValue(':id_author', intval($illustratorId), PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+
 }

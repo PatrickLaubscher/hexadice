@@ -1,16 +1,16 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
 require_once __DIR__ . '/../functions/error_register.php';
 require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
-session_start();
 
 
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {
-    echo "Erreur lors de la connexion à la base de données";
-    exit;
+    $_SESSION['error'] = 1;
+    Controller::redirect('../index.php');
 }
 
 
@@ -25,41 +25,33 @@ if(!empty($_POST)) {
         'message' => $message
     ] = $_POST;
 
-    $newEmail = new Email($email);
-
+    $email = new Email($email);
+    $message = new Message($db);
 
 
     if(empty($firstname) || empty($lastname) || empty($email) || empty($message)) {
-        Controller::redirect('../contact.php?error=' . INPUT_MISSING);
+        $_SESSION['error'] = 7;
+        Controller::redirect('../contact.php');
     }
 
-    if($newEmail->isEmail() === false) {
-        Controller::redirect('../index.php?error=' . EMAIL_INVALIDE);
+    if($email->isEmail() === false) {
+        $_SESSION['error'] = 4;
+        Controller::redirect('../index.php');
     }
 
-    if($newEmail->isSpam()) {
-        Controller::redirect('../index.php?error=' . EMAIL_SPAM);
+    if($email->isSpam()) {
+        $_SESSION['error'] = 2;
+        Controller::redirect('../index.php');
     }
 
     else {
 
-
-        $query = "INSERT INTO contact (
-            contact_firstname, contact_lastname, contact_email, contact_object, contact_message 
-            ) 
-            VALUES (
-                :firstname, :lastname, :email, :message_object, :message_text)";
-            
-        $stmt = $db->prepare($query);
-        $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
-        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmt->bindValue(':message_object', $object, PDO::PARAM_INT);
-        $stmt->bindValue(':message_text', $message, PDO::PARAM_STR);
-        
-
-        if($stmt->execute()) {
-            Controller::redirect('../index.php?validation=' . MESSAGE_SEND);
+        if($message->customerNewMessage($firstname, $lastname, strval($email), $object, strval($message))) {
+            $_SESSION['validation'] = 7;
+            Controller::redirect('../index.php');
+        } else {
+            $_SESSION['error'] = 13;
+            Controller::redirect('../contact.php');
         }
 
     }

@@ -1,40 +1,43 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
 require_once __DIR__ . '/../functions/error_register.php';
 require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
-if(empty($_POST)) {
-    Controller::redirect('../admin/admin.php?error=' . FORM_EMPTY);
-}
-
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {
-    echo "Erreur lors de la connexion à la base de données";
-    exit;
+    $_SESSION['error'] = 1;
+    Controller::redirect('../index.php');
 }
 
-$game = new GameContent($db);
+if(!empty($_POST)) {
 
+    if (isset($_POST['game_name']) && !empty($_POST['game_name'])) {
 
-if (isset($_POST['game_name']) && !empty($_POST['game_name'])) {
+        $game = new GameContent($db);
+        $gameName = $_POST['game_name'];
 
-    $gameName = $_POST['game_name'];
+        $gameId = $game->getIdByName($gameName);
 
-    $gameId = $game->getIdByName($gameName);
+        if(empty($gameId)) {
+            $_SESSION = 11;
+            Controller::redirect('../admin/admin.php');
+        }
 
-    if(empty($gameId)) {
-        Controller::redirect('../admin/admin.php?error=' . GAME_NOT_FOUND);
-    }
+        $game = $game->getAllContentById($gameId);
 
-    $game = $game->getAllContentById($gameId);
-
-}  
-
+    } else {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../admin/admin.php');
+    }  
+    
+}
 else {
-    Controller::redirect('../admin/admin.php?error=' . FORM_EMPTY);
+    Controller::redirect('../admin/admin.php');
 }
+
 
 $title="Backoffice";
 require_once __DIR__ . '/../admin/layout/header_admin.php';
