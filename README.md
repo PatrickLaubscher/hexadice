@@ -58,9 +58,14 @@ The contact page includes the contact form in which you can chose the subject of
 ## Back-end developpement
 
 
+### Classes
+
+I've tried to build up as many classes as I could. I include an interface : ProductContent as I consider that e-commerce board games website may all sell other products than games. I've also include an abstract class : User.
+
+
 ### Autoloader 
 
-Following the course of Graphikarts on PHP POO, I've tried to use the Autoloader on it's simple shape. In that and to clear the code at maximum, I've tried to build up as many classes as I could.
+Following the course of Graphikarts on PHP POO, I've tried to use the Autoloader on it's simple shape. In that and to clear the code at maximum, 
 
 
 ### Database singleton
