@@ -43,7 +43,7 @@ The shopping cart is working on superglobal SESSION. User can add product, manag
 
 ### Login pages
 
-2 diffenents login pages for customer and employee with password and email checking. I intented to implement a count of attempt to enhance security. 
+2 different login pages for customer and employee with password and email checking. I intented to implement a count of attempt to enhance security. 
 
 ### Customer page
 
