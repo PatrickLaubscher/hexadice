@@ -43,7 +43,7 @@ The shopping cart is working on superglobal SESSION. User can add product, manag
 
 ### Login pages
 
-2 diffenents login pages for customer and employee. 
+2 diffenents login pages for customer and employee with password and email checking. I intented to implement a count of attempt to enhance security. 
 
 ### Customer page
 
@@ -71,6 +71,11 @@ As only one instance of the class is used, I've limited the use of getting it an
 ### Error/validation management
 
 I use 2 classes for both error and validation register. The reference number is passed through $_SESSION superglobal. 
+
+
+### SQL Requets 
+
+All of them are contained in classes. GameContent is the most important. 
 
 
 
