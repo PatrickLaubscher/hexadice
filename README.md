@@ -88,6 +88,11 @@ All of them are contained in classes. GameContent is the most important.
 In backoffice, amdin can upload files for game. The update of this file doesn't include the delete of the previous one. 
 
 
+### Pagination & research 
+
+On home page, my pagination use superglobal $_GET and the research field as well. It creates an interference and I intend to resolve it. It's working but I'm not sure if it is the most efficient way.
+
+
 ## Configuration
 
 Use as model the following file `config/db.ini-template` in order to create `config/db.ini` with this structure :
