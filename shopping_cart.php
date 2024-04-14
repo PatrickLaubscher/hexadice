@@ -16,9 +16,9 @@ if(!empty($_SESSION['cart'])) {
                 <div class="col-10">
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="fw-normal mb-0 text-black">Votre panier</h3>
+                        <h3 class="mb-3 nothing-serious-h1">Votre panier</h3>
                     </div>
-
+                    <hr>
                     <?php if(empty($_SESSION) || empty($_SESSION['cart'])) { ?>
                     <p>Votre panier est vide</p>
                     <?php } ?>
@@ -33,8 +33,8 @@ if(!empty($_SESSION['cart'])) {
 
                         $article = $game->getAllContentById($id);?>
 
-                        <div class="rounded-3 mb-4">
-                            <div class="card-body p-4">
+                        <div class="rounded-3 my-2">
+                            <div class="p-2">
                                 <div class="row d-flex justify-content-between align-items-center">
                                     <div class="col-md-2 col-lg-2 col-xl-2">
                                         <img src="uploads/products/<?php echo $article['game_sticker'];?>"
@@ -80,16 +80,18 @@ if(!empty($_SESSION['cart'])) {
                             <button type="button" class="btn btn-outline-warning btn-lg col-7 col-md-4 col-lg-3">Appliquer le code</button>
                         </div>
                     </div>
-        
+                    <div>
+                        <a href="index.php" class="nothing-serious-h3">
+                            -> Voulez-vous rajouter d'autres jeux? Let's play !
+                            <img src="assets/svg/hexadice-logo-mark.svg" class="ms-2 btn-rotate" alt="Logo Hexadice" width="40" alt="Hexadice logo">
+                        </a>
+                    </div>
                     <div class="card-body d-flex justify-content-end">
                         <form method="post" action="process/validation_cart.php">
-                        <input type="submit" class="btn btn-warning btn-block btn-lg" value="Valider le panier">
+                        <input type="submit" class="btn btn-warning btn-block btn-lg btn1" value="Valider le panier">
                         </form>
                     </div>
-
-                    
-
-                    <div class="card-body my-5">
+                    <div>
                         <a href="process/clean_shopping_cart.php" class="btn btn-secondary">Vider le panier</a>
                     </div>
 

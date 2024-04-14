@@ -1,5 +1,5 @@
 <?php
-$title = "Accueil";
+$title = "Nouveau client";
 require_once __DIR__ . '/layout/header.php';
 require __DIR__ . '/data/products.php';
 
@@ -9,8 +9,9 @@ require __DIR__ . '/data/products.php';
 <section class="section mt-5">
     <div class="container">        
         <div class="row d-flex justify-content-center">
-            <div class="col-8 mb-4 border p-5 d-flex flex-column justify-content-center">
-                <header><h2 class="fs-5 mb-5">Formulaire d'enregistrement</h2></header>
+            <h1 class="mb-2 nothing-serious-h1">Nouveau client</h1>
+            <div class="col-8 mb-4 border1 p-5 d-flex flex-column justify-content-center">
+                <header><h2 class="mb-5 nothing-serious-h2">Formulaire d'enregistrement</h2></header>
                 <form class="d-flex flex-column px-5" method="post" action="process/register_process.php">
                     <div class="mb-4 form-group">
                         <label for="lastname">Votre nom :</label>
@@ -29,10 +30,14 @@ require __DIR__ . '/data/products.php';
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <div class="mb-4 mt-3">
-                        <input class="btn btn-primary" type="submit" value="Valider votre inscription">
+                        <input class="btn btn-primary btn1" type="submit" value="Valider votre inscription">
                     </div> 
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+
+
+<?php require_once __DIR__ . '/layout/footer.php'; ?>

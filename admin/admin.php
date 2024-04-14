@@ -2,14 +2,6 @@
 $title="Backoffice";
 require_once __DIR__ . '/layout/header_admin.php';
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    $_SESSION['error'] = 1;
-    Controller::redirect('../index.php');
-}
-
-
 if(empty($_SESSION) || $_SESSION['employee'] === false) 
 {
     header('Location: index.php');

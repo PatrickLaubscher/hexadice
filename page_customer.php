@@ -20,7 +20,7 @@ $contentPage = $user->getContentById($_SESSION['customer_nb']);
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="my-4 fs-2">Votre espace client</h1>
+                    <h1 class="my-4 nothing-serious-h1">Votre espace client</h1>
                 </div>
             </div>
         </div>
@@ -29,11 +29,11 @@ $contentPage = $user->getContentById($_SESSION['customer_nb']);
     <section>
         <div class="container">
             <div class="row d-flex flex-column">
-                <div class="col-8 mb-5 p-3 align-self-center border">
-                    <div class="col-6 border">
+                <div class="col-8 mb-5 p-3 align-self-center border1">
+                    <div class="col-6 border1">
                         Votre photo de profil
                     </div>
-                    <h2 class="my-4 fs-4">Vos informations personnelles</h2>
+                    <h2 class="my-4 nothing-serious-h2">Vos informations personnelles</h2>
                     <h4>Votre nom: <?php echo $contentPage['customer_lastname']; ?></h4>
                     <h4>Votre prénom: <?php echo $contentPage['customer_firstname']; ?></h4>
                     <h4>Votre email: <?php echo $contentPage['customer_email']; ?></h4>
@@ -46,8 +46,8 @@ $contentPage = $user->getContentById($_SESSION['customer_nb']);
     <section>
         <div class="container">
             <div class="row d-flex flex-column">
-                <div class="col-8 mb-5 p-3 align-self-center border">
-                    <h2 class="my-4 fs-4">Historique de vos commandes</h2>
+                <div class="col-8 mb-5 p-3 align-self-center border1">
+                    <h2 class="my-4 nothing-serious-h2">Historique de vos commandes</h2>
 
                 </div>
             </div>

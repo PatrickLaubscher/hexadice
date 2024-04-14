@@ -44,10 +44,11 @@ $pagination = new Pagination($itemPerPage, $messageList);
             <div class="row d-flex flex-column align-items-center">
                 <div class="col-8 d-flex flex-column">
                     <h2 class="mb-4 fs-3">Liste des messages</h2>
-                    <div class="mb-4 border">
-                        <?php foreach($messageList as $message) { ?>
+                   
+                        <?php foreach($messageList as $message) { ?> 
+                        <div class="mb-4 border">
 
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between mb-4">
                                 <div class="d-flex flex-column ps-2">
                                     <div><span class="fs-info">Ref message: </span><?php echo $message['contact_id']?></div>
                                     <div><pan class="fs-info">Date: </pan><?php echo $message['contact_date']?></div>
@@ -85,8 +86,9 @@ $pagination = new Pagination($itemPerPage, $messageList);
                                 <a href="" class="btn btn-success fs-info">Répondre au message</a>
                                 <a href="" class="btn btn-danger fs-info">Supprimer le message</a>
                             </div>
-                       <?php } ?> 
-                    </div>                
+                        
+                         </div> 
+                        <?php } ?>               
                 </div>
             </div>
         </div>

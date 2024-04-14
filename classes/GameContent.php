@@ -81,10 +81,14 @@ class GameContent implements ProductContent
     public function getAllContentById(int $id): array
     {
         
-        $stmt = $this->db->prepare("SELECT * FROM game WHERE game_id = $id");
+        $stmt = $this->db->prepare("SELECT * FROM game 
+        INNER JOIN player_nb ON id_player_nb = player_nb_id 
+        INNER JOIN age_mini ON id_age_mini = age_mini_id
+        INNER JOIN duration ON id_duration = duration_id
+        INNER JOIN languages ON id_languages = languages_id
+        INNER JOIN editor ON id_editor = editor_id WHERE game_id = $id");
         $stmt->execute();
         $game = $stmt->fetch(PDO::FETCH_ASSOC);
-
 
         return $game;
 
@@ -94,7 +98,9 @@ class GameContent implements ProductContent
     /**
      * Find features content for a game by id
      * 
-     * 
+     * @param int $id
+     * @param string $feature name
+     * @return array
      */
     public function getFeatureContentById(int $id, string $feature): array
     {

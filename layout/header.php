@@ -1,8 +1,7 @@
 <?php
     session_start();
     require_once __DIR__ . '/../classes/Autoload.php';
-    Autoload::register();
-     
+    Autoload::register();  
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +55,6 @@
         $_SESSION['error'] = 1;
         exit;
     }
-
-
 
 ?>
 

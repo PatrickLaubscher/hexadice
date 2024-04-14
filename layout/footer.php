@@ -1,13 +1,16 @@
 
-    <footer class="text-center text-lg-start bg-dark text-white">
+    <footer class="text-center text-lg-start bg2 text-white">
 
         <section class="">
             <div class="container my-5">
                 <div class="container p-4 pb-0">
                     <div class="row">
+                        <div class="d-flex justify-content-center">
+                            <img src="assets/svg/hexadice-logo-mark.svg" width="80" class="mb-4">
+                        </div>
                         <hr class="mb-4" />
                         <p class="d-flex justify-content-center align-items-center gap-3">
-                            <span class="fs-4">Inscrivez-vous à notre newsletter</span>
+                            <span class="nothing-serious-h2">Inscrivez-vous à notre newsletter</span>
                             <button id="btn-newsletter" type="button" class="btn btn-outline-light btn-rounded">
                                 Je m'inscris !
                             </button>
@@ -18,10 +21,10 @@
                                 <form class="d-flex flex-column gap-2 align-items-center" method="POST" action="process/newsletter_process.php">
                                         <label class="d-none" for="email">Email: </label>
                                         <input class="mb-2 form-control" type="email" name="email" id="email" placeholder="Saisissez votre email ici" size="50" required>
-                                        <input id="btn-confirm" class="btn btn-primary" type="submit" value="Confirmer son inscription">
+                                        <input id="btn-confirm" class="btn btn-primary btn1" type="submit" value="Confirmer son inscription">
                                 </form>
                                 <div>
-                                    <button id="btn-remove" class="mb-3 mt-4 btn btn-secondary">^</button>
+                                    <button id="btn-remove" class="mb-3 mt-4 btn btn-secondary btn1">^</button>
                                 </div>  
                             </div>
                         </div>

@@ -1,7 +1,9 @@
 
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container">
-        <a class="navbar-brand" href="../index.php">HexaDice</a>
+        <a class="navbar-brand" href="../index.php">
+            <img src="../assets/svg/hexadice-logo-alter-v1.svg" alt="" width="220" alt="Hexadice logo">
+        </a>
         <a class="navbar-toggler" type="a" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </a>

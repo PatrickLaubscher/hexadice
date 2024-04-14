@@ -20,6 +20,10 @@ html {
     background-color: var(--light2);
 }
 
+.bg2 {
+    background-color: var(--dark1);
+}
+
 /* Font */
 
 @font-face {
@@ -38,6 +42,11 @@ html {
 .nothing-serious-h2 {
     font-family: "nothing-serious";
     font-size: 2rem;
+} 
+
+.nothing-serious-h3 {
+    font-family: "nothing-serious";
+    font-size: 1.5rem;
 } 
 
 .nothing-serious-p {
@@ -80,6 +89,13 @@ nav a span{
 .fs-info {
     font-size: 0.7rem;
     font-weight: 600
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-style: normal;
+
 }
 
 
@@ -133,6 +149,25 @@ nav a svg:hover {
     color: white;
 }
 
+
+.btn2 {
+    background-color: none;
+    border: var(--accent2) solid 1px;
+    color: var(--dark1);
+}
+
+.btn2:hover {
+    color: var(--accent1);
+    border: var(--accent1) solid 1px;
+}
+
+.btn2:hover svg {
+    fill: var(--accent1) !important;
+    transition: all ease 1s;
+    transform: rotate(360deg);
+}
+
+
 .search:hover .btn-rotate{
     transition: all ease 1s;
     transform: rotate(360deg);
@@ -156,11 +191,45 @@ nav a svg:hover {
 
 .card-body {
     min-height: 250px;
+    width: 100%;
+}
+
+.card-title {
+    height: 3rem;
 }
 
 .card-text {
     font-size: 1rem;
-    height: 5rem;
+    height: 4rem;
+}
+
+.card-category {
+    display: inline-block;
+    background-color: var(--light2);
+    border-radius: 5px;
+}
+
+.card-spec {
+    height: 1.5rem;
+    border: var(--dark1) solid 0.1px;
+    border-radius: 5px;
+}
+
+.card-notation svg{
+    fill: var(--accent1);
+}
+
+.card-cta {
+    height: 2rem;
+}
+
+.card-cta svg {
+    fill: var(--dark1);
+}
+
+.card-cta form:hover svg {
+    fill:white;
+    transition: all 0.5s ease;
 }
 
 
@@ -194,11 +263,6 @@ nav a svg:hover {
 
 .load-right {
     animation: loadRight 1s ease;
-}
-
-.rotate-90 {
-    transform: rotate(90deg);
-    transition: all 0.5s ease;
 }
 
 
