@@ -83,6 +83,10 @@ I use 2 classes for both error and validation register. The reference number is 
 All of them are contained in classes. GameContent is the most important. 
 
 
+### Upload files
+
+In backoffice, amdin can upload files for game. The update of this file doesn't include the delete of the previous one. 
+
 
 ## Configuration
 
