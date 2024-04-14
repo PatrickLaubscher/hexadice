@@ -31,6 +31,11 @@ Database connexion is monitoring with a singleton designn patern, inspirate from
 As only one instance of the class is used, I've limited the use of getting it and implemented only when I thought it was necessary. As I'm not completely familiar with singleton, I'm not sure if I can ask the instance less. 
 
 
+### Back-office
+
+I've developped a back office in the intention to make more CRUD as I could. I've had some difficulties to implement dynamically the fields for categories, authors or illustrators as the game may have one or several of them. I wanted the admin user to be able to chose the number of field. The only solution I've found and based on my basic knowledges on JS was to make the choice of the number of fields before fill in the form. Quite not UX friendly in my opinion but it's working. 
+In a parallel way, the update form of the game is quite working instead of regarding the update of features linked by the main table game on MANY to MANY connexion. My algorithm isn't working to update several features. I thought that maybe the easiest way was to get the actual values of the features in the form and after modify them, instead of let all the fields empty. 
+The back-office include  
 
 
 
