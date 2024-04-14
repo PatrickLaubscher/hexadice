@@ -5,9 +5,10 @@ require_once __DIR__ . '/layout/header_admin.php';
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {
-    echo "Erreur lors de la connexion à la base de données";
-    exit;
+    $_SESSION['error'] = 1;
+    Controller::redirect('../index.php');
 }
+
 
 if(empty($_SESSION) || $_SESSION['employee'] === false) 
 {
@@ -62,16 +63,16 @@ switch ($table) {
 }
 
 $contentPage = new GameContent($db);
-$featureList = new Feature($db);
+$feature = new Feature($db);
 
-$ageList         = $featureList->getAllContentFeature('age_mini');
-$categoryList    = $featureList->getAllContentFeature('category');
-$playerList      = $featureList->getAllContentFeature('player_nb');
-$durationList    = $featureList->getAllContentFeature('duration');
-$languagesList   = $featureList->getAllContentFeature('languages');
-$editorList      = $featureList->getAllContentFeature('editor');
-$authorList      = $featureList->getAllContentFeature('author');
-$illustratorList = $featureList->getAllContentFeature('illustrator');
+$ageList         = $feature->getAllContentFeature('age_mini');
+$categoryList    = $feature->getAllContentFeature('category');
+$playerList      = $feature->getAllContentFeature('player_nb');
+$durationList    = $feature->getAllContentFeature('duration');
+$languagesList   = $feature->getAllContentFeature('languages');
+$editorList      = $feature->getAllContentFeature('editor');
+$authorList      = $feature->getAllContentFeature('author');
+$illustratorList = $feature->getAllContentFeature('illustrator');
 
 $nbCategory    = 1;
 $nbAuthor      = 1;
@@ -104,9 +105,9 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
             <div class="row d-flex flex-column">
                 <div class="col">
                     <h2 class="mt-4 fs-4">Ajouter/modifier les listes d'informations complémentaires</h2>
-                    <button id="btn-section1" class="btn btn-secondary">></button>
+                    <button class="btn btn-secondary">></button>
                 </div>
-                <div id="section1" class="col-8 mb-5 p-3 align-self-center d-none border">
+                <div id="section1" class="col-8 mb-5 p-3 align-self-center border">
                     <form>
                         <select name="featureTable">
                             <option value="">-- Choisir la liste à modifier --</option>
@@ -560,6 +561,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
                         <button id="btn-section5-remove" class="btn btn-secondary">^</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -567,7 +569,7 @@ if(isset($_GET['nbCategory']) || isset($_GET['nbAuthor']) || isset($_GET['nbIllu
 
 
 
-
+    <hr>
 </main>
 
 

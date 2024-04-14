@@ -1,11 +1,11 @@
 <?php 
-require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
-Autoload::register();
 session_start();
+require_once __DIR__ . '/../classes/Autoload.php';
+Autoload::register();
+
 
 unset($_SESSION['cart']);
 
-Controller::redirect('../index.php?validation=' . ORDER_CONFIRM);
+$_SESSION['validation'] = 9;
+Controller::redirect('../index.php');
 

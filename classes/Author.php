@@ -43,4 +43,23 @@ class Author extends Feature
     }
 
 
+    /**
+     * update table game_author_listt by game id
+     * 
+     * @param int $gameId
+     * @param int $authorId
+     * @return bool
+     */
+    public function updateGameAuthorList (int $gameId, int $authorId): bool
+    {
+
+        $query = "UPDATE game_author_list SET id_author = :id_author WHERE id_game = :game_id";  
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':game_id', $gameId, PDO::PARAM_INT);
+        $stmt->bindValue(':id_author', $authorId, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+
 }

@@ -2,27 +2,92 @@ html {
     font-size: 16px;
 }
 
+/* colors */
+
+:root {
+
+    --dark1: #181226;
+    --dark2: #3c2b5a;
+    --dark3: #543f82;
+    --light1: #fff68a;
+    --light2: #ffdc4a;
+    --accent1: #f7b20c;
+    --accent2: #8c610a;
+
+}
+
+.bg1 {
+    background-color: var(--light2);
+}
+
 /* Font */
 
+@font-face {
+    font-family: "nothing-serious";
+    src:
+      local("Nothing serious"),
+      url("/assets/font/Nothing_serious.otf") format("opentype")
+}
+
+.nothing-serious-h1 {
+    font-family: "nothing-serious";
+    font-size: 3.2rem;
+    color: var(--dark1);
+} 
+
+.nothing-serious-h2 {
+    font-family: "nothing-serious";
+    font-size: 2rem;
+} 
+
+.nothing-serious-p {
+    font-family: "nothing-serious";
+    font-size: 1.2rem;
+} 
+
 body {
-    font-family: "Lato", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
 h1,h2,h3 {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
     font-style: normal;
+}
 
+a {
+    color: var(--dark3);
+}
+
+a:hover {
+    color: var(--dark1);
 }
 
 p,a {
     font-size: 1rem;
 }
 
+nav a span{
+    font-size: 0.7rem;
+}
+
 .category {
     font-size: 0.8rem;
+}
+
+.fs-info {
+    font-size: 0.7rem;
+    font-weight: 600
+}
+
+
+/* border  */
+
+.border1 {
+    border: var(--dark1) solid 1px;
+    border-radius: 20px;
 }
 
 
@@ -32,34 +97,50 @@ p,a {
     fill: white;
 }
 
-.link {
-    color: black;
-    text-decoration: none;
+nav a svg {
+    fill: var(--dark2);
 }
 
-.link:hover svg {
-    transition: ease all 0.5s;
-    fill:rgb(101, 24, 106);
+nav a svg:hover {
+    fill: var(--dark3);
 }
 
-.btn-1 {
-    background-color: rgb(254, 250, 2);
-    font-size: 0.7rem;
+.active svg {
+    fill: var(--dark1);
 }
 
-.btn-1 path {
-    fill: black;
-}
 
-.btn-1:hover {
-    background-color: rgb(236, 232, 10);
-    transition: all ease 0.3s;
-}
 
 /* Button */
 
 .pointer {
     cursor: pointer;
+}
+
+.btn-style-reset {
+    border: none;
+    background-color: none;
+}
+
+.btn1 {
+    background-color: var(--accent1);
+    border: none;
+    border-radius: 10px;
+}
+
+.btn1:hover {
+    background-color: var(--accent2);
+    color: white;
+}
+
+.search:hover .btn-rotate{
+    transition: all ease 1s;
+    transform: rotate(360deg);
+}
+
+.btn-rotate:hover {
+    transition: all ease 1s;
+    transform: rotate(360deg);
 }
 
 

@@ -7,7 +7,7 @@ try {
     exit;
 }
 
-$idGame = $game['game_id'];
+$idGame = intval($game['game_id']);
 $categoryList = $contentPage->getFeatureContentById($idGame, 'category');
 asort($categoryList);
 

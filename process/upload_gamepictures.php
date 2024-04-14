@@ -1,23 +1,23 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
-if(empty($_POST)) {
-    Controller::redirect('../admin/admin.php?error=' . FORM_EMPTY);
-}
+$db = Database::getInstance();
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    echo "Erreur lors de la connexion à la base de données";
-    exit;
-}
+if(isset($_POST)) {
 
-$countFileUpload = 0;
+    if(empty($_POST)) {
+        $_SESSION['error'] = 14;
+        Controller::redirect('../admin/admin.php');
+    }
 
-if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)) {
+    if(empty($_FILES)) {
+        $_SESSION['error'] = 16;
+        Controller::redirect('../admin/admin.php');
+    }
+
+    $countFileUpload = 0;
 
     $gameName = $_POST['game_name'];
 
@@ -25,7 +25,8 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
     $gameId = $gameContent->getIdByName($gameName);
 
     if(empty($gameId)) {
-        Controller::redirect('../admin/admin.php?error=' . GAME_NOT_FOUND);
+        $_SESSION['error'] = 11;
+        Controller::redirect('../admin/admin.php');
     }
 
     [
@@ -68,7 +69,7 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
         $filename = $upload->UploadGamePicture($game_picture2);
 
         if (!empty($filename)) {
-            $gameContent->setPictureGame(1,$filename, $gameId);
+            $gameContent->setPictureGame(2,$filename, $gameId);
         }
 
         $countFileUpload = $countFileUpload + 1;
@@ -79,7 +80,7 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
         $filename = $upload->UploadGamePicture($game_picture3);
 
         if (!empty($filename)) {
-            $gameContent->setPictureGame(1,$filename, $gameId);
+            $gameContent->setPictureGame(3,$filename, $gameId);
         }
 
         $countFileUpload = $countFileUpload + 1;
@@ -90,7 +91,7 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
         $filename = $upload->UploadGamePicture($game_picture4);
 
         if (!empty($filename)) {
-            $gameContent->setPictureGame(1,$filename, $gameId);
+            $gameContent->setPictureGame(4,$filename, $gameId);
         }
 
         $countFileUpload = $countFileUpload + 1;
@@ -101,7 +102,7 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
         $filename = $upload->UploadGamePicture($game_picture5);
 
         if (!empty($filename)) {
-            $gameContent->setPictureGame(1,$filename, $gameId);
+            $gameContent->setPictureGame(5,$filename, $gameId);
         }
 
         $countFileUpload = $countFileUpload + 1;
@@ -109,12 +110,17 @@ if (isset($_POST['game_name']) && !empty($_POST['game_name']) && !empty($_FILES)
 
 
     if($countFileUpload > 0 ){
-        Controller::redirect('../admin/admin.php?validation_upload=' . UPLOADED_FILES . '&files_upload=' . $countFileUpload);
+        $_SESSION['validation_upload'] = 6;
+        $_SESSION['files_upload'] = $countFileUpload;
+        Controller::redirect('../admin/admin.php');
     } else if ($countFileUpload === 0){
-        Controller::redirect('../admin/admin.php?error_upload=' . ERROR_UPLOAD_FILES);
+        $_SESSION['error_upload'] = 10;
+        Controller::redirect('../admin/admin.php');
     }
     
-    
-} else {
-    Controller::redirect('../admin/admin.php?error=' . INPUT_MISSING);
+
+
+}  
+else {
+    Controller::redirect('../admin/admin.php');
 }

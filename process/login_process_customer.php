@@ -1,21 +1,18 @@
 <?php
 session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
-
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    $_SESSION['error'] = 1;
-    Controller::redirect('../index.php');
-}
+$db = Database::getInstance();
 
 $isVerify = false;
 
-if(isset($_POST) && !empty($_POST)) {
+if(isset($_POST)) {
+
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../login_costumer.php');
+    }
 
     if (empty($_POST['email']) || empty($_POST['password'])) {
         $_SESSION['error'] = 7;

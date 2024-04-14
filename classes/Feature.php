@@ -28,7 +28,7 @@ class Feature
 
 
     /**
-     * Give all content of a given feature name
+     * return all content of a given feature name
      * 
      * @param string $feature  
      * @return array  
@@ -39,6 +39,25 @@ class Feature
         $stmt = $this->db->prepare("SELECT * FROM $feature");
         $stmt->execute();
         $featureList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        asort($featureList);
+
+        return $featureList;
+
+    }
+
+
+    /**
+     * return list of content feature names
+     * 
+     * @param string $feature  
+     * @return array  
+     */
+    public function getAllNameFeature(string $feature): array
+    {
+        $column = $feature . "_name";
+        $stmt = $this->db->prepare("SELECT $column FROM $feature");
+        $stmt->execute();
+        $featureList = $stmt->fetchAll(PDO::FETCH_COLUMN);
         asort($featureList);
 
         return $featureList;

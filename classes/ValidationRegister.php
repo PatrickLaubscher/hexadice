@@ -14,6 +14,7 @@ class ValidationRegister
     const ORDER_CONFIRM           = 9;
     const DELETE_PRODUCT          = 10;
     const DELETE_GAME             = 11;
+    const EMPTY_CART              = 12;
 
 
     public static function getValidationMsg(int $validationNb): string
@@ -29,6 +30,7 @@ class ValidationRegister
             self::ORDER_CONFIRM           => "Votre commande est bien enregistrée, merci !",
             self::DELETE_PRODUCT          => "L'article a bien été supprimé du panier",
             self::DELETE_GAME             => "Le jeu a bien été supprimé du catalogue",
+            self::EMPTY_CART              => "Votre panier ne contient plus d'articles",
             default                       => "Une erreur est survenue"
         };
     }

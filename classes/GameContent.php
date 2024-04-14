@@ -13,7 +13,6 @@ class GameContent implements ProductContent
     }
 
 
-
     /**
      * Insert new game in table game
      * 
@@ -68,7 +67,6 @@ class GameContent implements ProductContent
         $stmt = $this->db->prepare("SELECT * FROM game");
         $stmt->execute();
         $gameList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
         return $gameList;
     }
@@ -130,6 +128,82 @@ class GameContent implements ProductContent
     }
 
 
+
+    /** 
+     * find games containing given string and return a list of game id founded
+     * 
+     * 
+     * @param string $name
+     * @return array $gameListResult
+    */
+    public function findGamesByName (string $name): array 
+    {
+        $stmt = $this->db->prepare("SELECT * FROM game WHERE game_name LIKE '%$name%'");
+        $stmt->execute();
+        $gameListResult = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        asort($gameListResult);
+
+        return $gameListResult;
+    }
+
+
+
+
+    /**
+     * Find games based on searching values & features 
+     * 
+     * @param array $paramList associative array of parameters and values
+     * @return array list of game found
+     */
+    public function findGamesGlobalSearch (array $paramList): array|bool 
+    {
+
+        $query = 'SELECT * FROM';
+
+        $searchParams = $paramList;
+
+        if(isset($searchParams['category'])) {
+            $query .= " game_category_list INNER JOIN category ON category_id = id_category"; 
+        }
+
+        if(!empty($searchParams['game_name']) && count($searchParams) == 1) {
+            $query .= " game";
+        } else {
+            $query .= " INNER JOIN game on game_id = id_game";
+        }
+        
+        foreach ($searchParams as $param => $value) {
+            if($param != "game_name" && $param != "category")
+            $query .= " INNER JOIN " . $param . " ON " . $param . "_id = id_" . $param;
+        }
+
+        $query .= " WHERE ";
+
+        foreach ($searchParams as $param => $value) {
+
+            $value = addslashes($value);
+
+            if(!empty($searchParams['game_name'] && $param =='game_name')) {
+                $query .= "game_name LIKE '%$value%' AND ";
+            } 
+
+            if($param != 'game_name'){
+            $query .= $param . "_name LIKE '$value' AND ";
+            }  
+            
+        }
+        $query = rtrim($query, " AND ");
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+
+
+
     /**
      * insert picture sticker filename for a product
      * 
@@ -186,6 +260,28 @@ class GameContent implements ProductContent
        
         return $stmt->execute();
     }
+
+
+
+    /**
+     * update column content in game table
+     * 
+     * 
+     * @param $id
+     * @param $column
+     * @param $value
+     * @return bool
+     */
+    public function updateGameContentById (int $id, string $column, string|int $value): bool
+    {
+        $query= "UPDATE game SET $column = :column WHERE game_id = '$id'";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':column', $value, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+
 
 }
 

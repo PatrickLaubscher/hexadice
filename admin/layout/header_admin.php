@@ -1,8 +1,6 @@
 <?php
     session_start();
     require_once __DIR__ . '/../../classes/Autoload.php';
-    require_once __DIR__ . '/../../functions/error_register.php';
-    require_once __DIR__ . '/../../functions/validation_register.php';
     Autoload::register();
 ?>
 <!DOCTYPE html>
@@ -26,6 +24,7 @@
     <script src="../assets/js/owl.carousel.min.js"></script>
     <script src="../assets/js/main.js" defer></script>
     <title>HexaDice | <?= $title; ?></title>
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon_hexadice.svg">
 </head>
 
 <body>
@@ -48,7 +47,7 @@
 
     if (!empty($_SESSION['validation'])) {
         $validationMsg = ValidationRegister::getValidationMsg(intval($_SESSION['validation']));
-        require_once __DIR__ . '/../templates/validation_prompt.php';
+        require_once __DIR__ . '/../../templates/validation_prompt.php';
     }
 
     if (!empty($_SESSION['validation_upload']) && !empty($_SESSION['files_upload'])) {
@@ -58,6 +57,8 @@
 
     $_SESSION['error'] = [];
     $_SESSION['validation'] = [];
+    $_SESSION['validation_upload'] = [];
+    $_SESSION['files_upload'] = [];
 
     try {
         $db = Database::getInstance();

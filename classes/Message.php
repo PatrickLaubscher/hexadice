@@ -31,8 +31,24 @@ class Message
         $stmt->bindValue(':message_object', $object, PDO::PARAM_INT);
         $stmt->bindValue(':message_text', $message, PDO::PARAM_STR);
 
-        return $stmt->exec();
-    } 
+        return $stmt->execute();
+    }
+    
+
+
+    /**
+     * find all message in table contact
+     * 
+     * @return array
+     */
+    public function getAllMessage (): array 
+    {
+        $query="SELECT * FROM contact";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
 }

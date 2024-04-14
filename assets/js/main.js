@@ -94,7 +94,9 @@ if(mainImg) {
 
 /* section 1 */
 
-const btnAdminSection1 = document.getElementById("btn-section1");
+/* Non actif pour le moment - disparition du block d'affichage après envoi du formulaire */
+
+/* const btnAdminSection1 = document.getElementById("btn-section1");
 const btnRemoveAdminSection1 = document.getElementById("btn-section1-remove");
 const adminSection1 = document.getElementById("section1");
 
@@ -111,7 +113,7 @@ if (btnAdminSection1) {
         adminSection1.classList.add("d-none") +
         btnAdminSection1.classList.remove("rotate-90")
     );
-}
+} */
 
 
 /* section 2 */

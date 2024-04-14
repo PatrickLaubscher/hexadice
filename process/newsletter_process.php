@@ -1,18 +1,17 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    Controller::redirect('../index.php?error=' . CONNEXION_BBD);
-    exit;
-}
+$db = Database::getInstance();
 
 
-if(isset($_POST) && !empty($_POST)) {
+if(isset($_POST)) {
+
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../index.php');
+    }
     
     [
         'email' => $email,
@@ -21,22 +20,27 @@ if(isset($_POST) && !empty($_POST)) {
     $newEmail = new Email($email);
     
     if($newEmail->isEmpty()) {
-        Controller::redirect('../index.php?error=' . EMAIL_REQUIRED);
+        $_SESSION['error'] = 5;
+        Controller::redirect('../index.php');
     }
 
     if($newEmail->isEmail() === false) {
-        Controller::redirect('../index.php?error=' . EMAIL_INVALIDE);
+        $_SESSION['error'] = 4;
+        Controller::redirect('../index.php');
     }
 
     if($newEmail->isSpam()) {
-        Controller::redirect('../index.php?error=' . EMAIL_SPAM);
+        $_SESSION['error'] = 2;
+        Controller::redirect('../index.php');
     }
 
     if($newEmail->isDuplicateMailingList($db)) {
-        Controller::redirect('../index.php?error=' . EMAIL_DUPLICATE);
+        $_SESSION['error'] = 3;
+        Controller::redirect('../index.php');
     } else {
         $newEmail->addEmail($db);
-        Controller::redirect('../index.php?success=' . SUBSCRIPTION_NEWSLETTER);
+        $_SESSION['validation'] = 5;
+        Controller::redirect('../index.php');
     }
 
 } else {

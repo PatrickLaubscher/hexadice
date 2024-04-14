@@ -1,13 +1,16 @@
 <?php
 session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
 
 
-if(!empty($_POST)) {
+if(isset($_POST)) {
+
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../index.php');
+    }
 
     [ 
         'game_id' => $game_id

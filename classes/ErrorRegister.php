@@ -16,6 +16,9 @@ class ErrorRegister
     const GAME_NOT_FOUND     = 11;
     const ERROR_STMT         = 12;
     const ERROR_MSG          = 13;
+    const NAME_REQUIRED      = 14;
+    const MODIFIED_NONE      = 15;
+    const MISSING_FILES      = 16;
 
 
     public static function getErrorMsg(int $errorNb): string
@@ -33,6 +36,9 @@ class ErrorRegister
             self::GAME_NOT_FOUND     => "Le jeu n'a pas été trouvé dans le catalogue",
             self::ERROR_STMT         => "Il y a une erreur dans l'exécution de cette requête",
             self::ERROR_MSG          => "Il y a eu une erreur dans l'envoi de votre message",
+            self::NAME_REQUIRED      => "Merci de renseigner le nom du jeu",
+            self::MODIFIED_NONE      => "Aucune modification n'a été apportée au jeu. Vérifiez les données saisies.",
+            self::MISSING_FILES      => "Il manque les fichiers dans le formualaire d'envoi.",
             default                  => "Une erreur est survenue"
         };
     }

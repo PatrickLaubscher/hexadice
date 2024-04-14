@@ -1,28 +1,23 @@
 <?php
 session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
+$db = Database::getInstance();
 
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    $_SESSION['error'] = 1;
-    Controller::redirect('../index.php');
-}
+if(isset($_POST)) {
 
-
-if(!empty($_POST)) {
-
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../contact.php');
+    }
     
     [
         'firstname' => $firstname,
-        'lastname' => $lastname,
-        'email' => $email,
-        'object' => $object,
-        'message' => $message
+        'lastname'  => $lastname,
+        'email'     => $email,
+        'object'    => $object,
+        'message'   => $message
     ] = $_POST;
 
     $email = new Email($email);

@@ -1,23 +1,22 @@
 <?php
-require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
-Autoload::register();
 session_start();
+require_once __DIR__ . '/../classes/Autoload.php';
+Autoload::register();
 
-
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    Controller::redirect('../index.php?error=' . CONNEXION_BBD);
-}
+$db = Database::getInstance();
 
 $isVerify = false;
 
-if(isset($_POST) && !empty($_POST)) {
+if(isset($_POST)) {
+
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../login_admin.php');
+    }
 
     if (empty($_POST['email']) || empty($_POST['password'])) {
-        Controller::redirect('../index.php?error=' . INPUT_MISSING);
+        $_SESSION['error'] = 7;
+        Controller::redirect('../login_admin.php');
     }
 
     [
@@ -29,14 +28,16 @@ if(isset($_POST) && !empty($_POST)) {
     $employeeFound = $login->findEmployee($email);
 
     if(empty($employeeFound)) {
-        Controller::redirect('../login_admin.php?error=' . ERROR_LOGIN);
+        $_SESSION['error'] = 9;
+        Controller::redirect('../login_admin.php');
     }
 
     
     if ($employeeFound && password_verify($password, $employeeFound['employee_pwd'])) {
         $isVerify = true;
     } else {
-        Controller::redirect('../login_admin.php?error=' . ERROR_PASSWORD);
+        $_SESSION['error'] = 8;
+        Controller::redirect('../login_admin.php');
     }
 
     if ($isVerify === true) {

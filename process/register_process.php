@@ -1,40 +1,45 @@
 <?php
+session_start();
 require_once __DIR__ . '/../classes/Autoload.php';
-require_once __DIR__ . '/../functions/error_register.php';
-require_once __DIR__ . '/../functions/validation_register.php';
 Autoload::register();
 
+$db = Database::getInstance();
 
-if(empty($_POST)) {
-    Controller::redirect('../new_customer.php?error=' . FORM_EMPTY);
-}
+if(isset($_POST)) {
 
-try {
-    $db = Database::getInstance();
-} catch (PDOException $e) {
-    Controller::redirect('../index.php?error=' . CONNEXION_BBD);
-    exit;
-}
-
-
-foreach($_POST as $data) {
-    if(empty($data)) {
-        Controller::redirect('../admin/admin.php?error=' . INPUT_MISSING);
+    if(empty($_POST)) {
+        $_SESSION['error'] = 6;
+        Controller::redirect('../index.php');
     }
+
+    foreach($_POST as $data) {
+        if(empty($data)) {
+            $_SESSION['error'] = 7;
+            Controller::redirect('../index.php');
+        }
+    }
+
+
+    [
+        'lastname' => $lastname,
+        'firstname' => $firstname,
+        'email' => $email,
+        'password' => $pass
+    ] = $_POST;
+
+
+    $newCustomer = new Customer($db);
+    $validation = $newCustomer->addNewUser($firstname, $lastname, $email, $pass);
+
+    if ($validation) {
+        $_SESSION['validation'] = 4;
+        Controller::redirect('../index.php');
+    } else {
+        $_SESSION['error'] = 12;
+        Controller::redirect('../index.php');
+    }
+
+} else {
+    Controller::redirect('../index.php');
 }
 
-
-[
-    'lastname' => $lastname,
-    'firstname' => $firstname,
-    'email' => $email,
-    'password' => $pass
-] = $_POST;
-
-
-$newCustomer = new Customer($db);
-$validation = $newCustomer->addNewUser($firstname, $lastname, $email, $pass);
-
-if ($validation) {
-    Controller::redirect('../new_customer.php?validation=' . NEWCUSTOMER_REGISTER);
-}
