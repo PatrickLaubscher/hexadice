@@ -35,6 +35,12 @@ class Customer extends User
     }
 
 
+    /**
+     * Find all customer in customer table
+     * 
+     * 
+     * @return array 
+     */
     public function getAllList (): array
     {
         $stmt = $this->db->prepare("SELECT 'customer_id','customer_firstname','customer_lastname','customer_email' FROM customer");
@@ -47,6 +53,13 @@ class Customer extends User
     }
 
 
+    /**
+     * find all customer information by id in customer table
+     * 
+     * 
+     * @param int $id
+     * @return array
+     */
     public function getContentById (int $id): array
     {
         $stmt = $this->db->prepare("SELECT customer_firstname, customer_lastname, customer_email FROM customer WHERE customer_id = $id ");
