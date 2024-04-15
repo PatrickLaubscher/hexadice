@@ -3,22 +3,22 @@
 
 class ErrorRegister 
 {
-    const CONNEXION_BBD      = 1;
-    const EMAIL_SPAM         = 2;
-    const EMAIL_DUPLICATE    = 3;
-    const EMAIL_INVALIDE     = 4;
-    const EMAIL_REQUIRED     = 5;
-    const FORM_EMPTY         = 6;
-    const INPUT_MISSING      = 7;
-    const ERROR_PASSWORD     = 8;
-    const ERROR_LOGIN        = 9;
-    const ERROR_UPLOAD_FILES = 10;
-    const GAME_NOT_FOUND     = 11;
-    const ERROR_STMT         = 12;
-    const ERROR_MSG          = 13;
-    const NAME_REQUIRED      = 14;
-    const MODIFIED_NONE      = 15;
-    const MISSING_FILES      = 16;
+    private const CONNEXION_BBD      = 1;
+    private const EMAIL_SPAM         = 2;
+    private const EMAIL_DUPLICATE    = 3;
+    private const EMAIL_INVALIDE     = 4;
+    private const EMAIL_REQUIRED     = 5;
+    private const FORM_EMPTY         = 6;
+    private const INPUT_MISSING      = 7;
+    private const ERROR_PASSWORD     = 8;
+    private const ERROR_LOGIN        = 9;
+    private const ERROR_UPLOAD_FILES = 10;
+    private const GAME_NOT_FOUND     = 11;
+    private const ERROR_STMT         = 12;
+    private const ERROR_MSG          = 13;
+    private const NAME_REQUIRED      = 14;
+    private const MODIFIED_NONE      = 15;
+    private const MISSING_FILES      = 16;
 
 
     public static function getErrorMsg(int $errorNb): string

@@ -3,18 +3,18 @@
 class ValidationRegister
 {
 
-    const GAME_ADDED              = 1;
-    const GAME_MODIFIED           = 2;
-    const FEATURE_ADDED           = 3;
-    const NEWCUSTOMER_REGISTER    = 4;
-    const SUBSCRIPTION_NEWSLETTER = 5;
-    const UPLOADED_FILES          = 6;
-    const MESSAGE_SEND            = 7;
-    const PRODUCT_ADD             = 8;
-    const ORDER_CONFIRM           = 9;
-    const DELETE_PRODUCT          = 10;
-    const DELETE_GAME             = 11;
-    const EMPTY_CART              = 12;
+    private const GAME_ADDED              = 1;
+    private const GAME_MODIFIED           = 2;
+    private const FEATURE_ADDED           = 3;
+    private const NEWCUSTOMER_REGISTER    = 4;
+    private const SUBSCRIPTION_NEWSLETTER = 5;
+    private const UPLOADED_FILES          = 6;
+    private const MESSAGE_SEND            = 7;
+    private const PRODUCT_ADD             = 8;
+    private const ORDER_CONFIRM           = 9;
+    private const DELETE_PRODUCT          = 10;
+    private const DELETE_GAME             = 11;
+    private const EMPTY_CART              = 12;
 
 
     public static function getValidationMsg(int $validationNb): string
