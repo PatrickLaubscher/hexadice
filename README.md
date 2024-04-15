@@ -2,7 +2,7 @@
 
 ## Brief 
 
-Hexadice is an e-commerce application developped on PHP only. This project takes place in our back dev training course in Human Booster. 
+Hexadice is an e-commerce application developped with PHP. This project takes place in our back dev training course at Human Booster. 
 As inspiration, I've used the following well-known websites : 
 https://www.philibertnet.com/
 https://www.espritjeu.com/
