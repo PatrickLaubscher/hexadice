@@ -3,12 +3,16 @@ $title = "Accueil";
 require_once __DIR__ . '/classes/Autoload.php';
 Autoload::register();
 
+require_once __DIR__ . '/layout/header.php';
+
 try {
     $db = Database::getInstance();
 } catch (PDOException $e) {
     $_SESSION['error'] = 1;
     exit;
 }
+
+
 
 $contentPage = new GameContent($db);
 $featureList = new Feature($db);
@@ -28,7 +32,7 @@ if(isset($_GET['game_name']) || isset($_GET['category']) || isset($_GET['player_
     try {
         $gameListResult = $contentPage->findGamesGlobalSearch($searchParams);
     } catch (PDOException $e) {
-        Controller::redirect('index.php');
+        Controller::redirect('/index.php');
     }
 
     
@@ -38,7 +42,6 @@ if(isset($_GET['game_name']) || isset($_GET['category']) || isset($_GET['player_
 }
 
 
-require_once __DIR__ . '/layout/header.php';
 
 $itemPerPage = 6;
 
