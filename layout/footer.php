@@ -9,14 +9,14 @@
                             <img src="assets/svg/hexadice-logo-mark.svg" width="80" class="mb-4">
                         </div>
                         <hr class="mb-4" />
-                        <p class="d-flex justify-content-center align-items-center gap-3">
+                        <p class="d-flex justify-content-center align-items-center flex-column flex-md-row gap-3">
                             <span class="nothing-serious-h2">Inscrivez-vous à notre newsletter</span>
                             <button id="btn-newsletter" type="button" class="btn btn-outline-light btn-rounded">
                                 Je m'inscris !
                             </button>
                         </p>
                         <div id="form-newsletter" class="row d-none d-flex justify-content-center mb-2 mx-3 p-3">
-                            <div class="col-6 d-flex flex-column align-items-center justify-content-center mb-4">
+                            <div class="col col-md-6 d-flex flex-column align-items-center justify-content-center mb-4">
                                 <h3 class="mb-3" >Remplissez le formulaire ci-dessous :</h3>
                                 <form class="d-flex flex-column gap-2 align-items-center" method="POST" action="process/newsletter_process.php">
                                         <label class="d-none" for="email">Email: </label>

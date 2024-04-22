@@ -44,7 +44,7 @@ if(!empty($gameListResult)){
 
 ?>
 
-<main>
+<main data-aos="fade-in">
 
     <section class="section">
         <div class="container">        
@@ -66,7 +66,7 @@ if(!empty($gameListResult)){
                         </div>
                         <div>
                             <p class="nothing-serious-p m-0 p-0">Catégories</p>
-                            <div class="form-group col-7 ps-2 mb-2 d-inline-flex flex-wrap gap-2">
+                            <div class="form-group col col-md-7 ps-2 mb-2 d-inline-flex flex-wrap gap-2">
                                 <?php foreach($categoryList as $category) { ?> 
                                 <div class="d-inline-flex justify-content-between align-items-center ps-1 gap-1">
                                     <label for="category"><?php echo $category['category_name'] ?></label>
@@ -78,7 +78,7 @@ if(!empty($gameListResult)){
                         
                         <div>
                             <p class="nothing-serious-p m-0 p-0">Nombre de joueur</p>
-                            <div class="form-group col-7 ps-2 mb-2 d-inline-flex flex-wrap gap-3">
+                            <div class="form-group col col-md-7 ps-2 mb-2 d-inline-flex flex-wrap gap-3">
                                 <?php foreach($playerNbList as $playerNb) { ?> 
                                 <div class="d-inline-flex justify-content-between align-items-center gap-1">
                                     <label for="player_nb"><?php echo $playerNb['player_nb_name'] ?></label>
@@ -90,7 +90,7 @@ if(!empty($gameListResult)){
 
                         <div>
                             <p class="nothing-serious-p m-0 p-0">Âge minimum</p>
-                            <div class="form-group col-7 ps-2 mb-2 d-inline-flex flex-wrap gap-3">
+                            <div class="form-group col col-md-7 ps-2 mb-2 d-inline-flex flex-wrap gap-3">
                                 <?php foreach($ageMiniList as $ageMini) { ?> 
                                 <div class="d-inline-flex justify-content-between align-items-center gap-1">
                                     <label for="age_mini"><?php echo $ageMini['age_mini_name'] ?> ans</label>

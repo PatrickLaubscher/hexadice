@@ -8,9 +8,9 @@ require __DIR__ . '/data/products.php';
 
 <section class="section mt-5">
     <div class="container">        
-        <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-center mx-2">
             <h1 class="mb-2 nothing-serious-h1">Nouveau client</h1>
-            <div class="col-8 mb-4 border1 p-5 d-flex flex-column justify-content-center">
+            <div class="col col-md-8 mb-4 border1 p-2 p-md-5 d-flex flex-column justify-content-center">
                 <header><h2 class="mb-5 nothing-serious-h2">Formulaire d'enregistrement</h2></header>
                 <form class="d-flex flex-column px-5" method="post" action="process/register_process.php">
                     <div class="mb-4 form-group">

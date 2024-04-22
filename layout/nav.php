@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg bg1">
+<nav class="navbar navbar-expand-lg bg1" data-aos="fade-in">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <img src="assets/svg/hexadice-logo-alter-v1.svg" alt="" width="220" alt="Hexadice logo">

@@ -8,15 +8,15 @@ require_once __DIR__ . '/layout/header.php';
 
 
 
-<main>
+<main data-aos="fade-in">
     <section>
         <div class="container">
-            <div class="row mt-5 d-flex flex-column">
+            <div class="row mt-5 d-flex flex-column mx-2">
                 <div class="col mb-2">
                     <h1 class="nothing-serious-h1">Nous contacter</h1>
                 </div>
-                <div class="col-8 align-self-center d-flex flex-column mb-2 border1">
-                    <form class="d-flex p-5 flex-column gap-3 contact-form" method="post" action="process/contact_process.php">
+                <div class="col col-md-8 align-self-center d-flex flex-column mb-2 border1">
+                    <form class="d-flex p-2 p-md-5 flex-column gap-3 contact-form" method="post" action="process/contact_process.php">
                         <div>
                             <label for="firstname">Prénom: </label><br>
                             <input class="form-control" type="text" name="firstname" id="firstname" placeholder="Prénom" 
@@ -47,7 +47,7 @@ require_once __DIR__ . '/layout/header.php';
                             </select>
                         </div>
                         <div>
-                            <textarea class="form-control" name="message">Ecrire votre message</textarea>
+                            <textarea class="form-control" name="message" rows="8">Ecrire votre message</textarea>
                         </div>
                         <div class="align-self-center">
                             <input class="btn btn-primary btn1" type="submit" value="Envoyer">

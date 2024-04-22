@@ -36,11 +36,11 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
     </section>
 
     <div class="container">
-
-        <div class="row mt-5 d-flex">
-            <section class="col-6">
+    
+        <div class="row d-flex flex-column flex-md-row mt-5">
+            <section class="col col-md-6 order-md-1 order-2">
                 <div class="mb-4 d-flex justify-content-center h-70">
-                    <img id="main-img" data-bs-toggle="modal" data-bs-target="#modal" class="pointer" src="uploads/products/<?php echo $contentPage['game_picture1']?>" width="350" height="350" alt="<?php echo $contentPage['game_name'] ?>">
+                    <img id="main-img" data-bs-toggle="modal" data-bs-target="#modal" class="pointer d-none d-md-block" src="uploads/products/<?php echo $contentPage['game_picture1']?>" width="350" height="350" alt="<?php echo $contentPage['game_name'] ?>">
                     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -52,7 +52,7 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
                         </div>
                     </div>
                 </div>
-                <div class="gallery owl-carousel owl-theme h-30">
+                <div class="gallery owl-carousel owl-theme h-30 d-md-block d-none">
                     <div class="item"><img src="uploads/products/<?php echo $contentPage['game_picture1']?>" class="img-fluid" width="150" height="150" alt="<?php $contentPage['game_name'] ?>"></div>
                     <div class="item"><img src="uploads/products//<?php echo $contentPage['game_picture2']?>" class="img-fluid" width="150" height="150" alt="<?php $contentPage['game_name'] ?>"></div>
                     <div class="item"><img src="uploads/products/<?php echo $contentPage['game_picture3']?>" class="img-fluid" width="150" height="150" alt="<?php $contentPage['game_name'] ?>"></div>
@@ -63,15 +63,46 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
                         <div class="item"><img src="uploads/products/<?php echo $contentPage['game_picture5']?>" class="img-fluid" width="150" height="150" alt="<?php $contentPage['game_name'] ?>"></div>
                     <?php } ?>
                 </div>
+                <div id="carousel_game" class="carousel slide d-block d-md-none" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                        <img class="d-block w-100" src="uploads/products/<?php echo $contentPage['game_picture1']?>" alt="First slide">
+                        </div>
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="uploads/products//<?php echo $contentPage['game_picture2']?>" alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="uploads/products/<?php echo $contentPage['game_picture3']?>" alt="Third slide">
+                        </div>
+                        <?php if($contentPage['game_picture4']) { ?>
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="uploads/products/<?php echo $contentPage['game_picture4']?>" alt="Fourth slide">
+                        </div>
+                        <?php } ?>
+                        <?php if($contentPage['game_picture5']) { ?>
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src="uploads/products/<?php echo $contentPage['game_picture5']?>" alt="Fifth slide">
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel_game" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel_game" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
                 <div class="container">
-                    <div class="row my-3">
+                    <div class="row my-2">
                         <hr>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
                             <div class="col ps-4 d-inline-flex gap-3 align-items-center">
                                 <h2 class="nothing-serious-h2">Prix du jeu -</h2>
                                 <p class="nothing-serious-h2 fs-2"><?php echo $contentPage['game_price']?> €</p>
                             </div>
-                            <form method="post" action="process/add_product.php" class="btn btn1 d-flex align-items-center justify-content-center gap-1">
+                            <form method="post" action="process/add_product.php" class="btn btn1 d-flex align-items-center justify-content-center gap-1 mb-3">
                                 <input type="text" name="game_id" class="d-none" value="<?php echo $contentPage['game_id'] ?>">
                                 <input type="submit" value="Ajouter au panier" class="nothing-serious-p btn btn-style-reset p-0"> 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
@@ -84,32 +115,32 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
                         <hr>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Nombre de joueurs -</h2>
                             <p class="fs-4"><?php echo $contentPage['player_nb_name']?></p>
                         </div>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Durée des parties -</h2>
                             <p class="fs-4"><?php echo $contentPage['duration_name']?></p>
                         </div>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Âge Minimum -</h2>
                             <p class="fs-4"><?php echo $contentPage['age_mini_name']?> ans</p>
                         </div>
                     </div>
 
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Editeur -</h2>
                             <p class="fs-4"><?php echo $contentPage['editor_name']?></p>
                         </div>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Auteur(s) -</h2>
                             <?php foreach($authorList as $author) { ?>
                                 <p class="fs-4"><?php echo $author['author_name'] ?></p>
@@ -117,7 +148,7 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
                         </div>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Illustrateur(s) -</h2>
                             <?php foreach($illustratorList as $illustrator) { ?>
                                 <p class="fs-4"><?php echo $illustrator['illustrator_name'] ?></p>
@@ -125,7 +156,7 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
                         </div>
                     </div>
                     <div class="row my-1">
-                        <div class="col ps-4 d-inline-flex gap-3 align-items-center">
+                        <div class="col ps-4 d-inline-flex gap-3 align-items-center flex-column flex-lg-row">
                             <h2 class="nothing-serious-h2">Langue -</h2>
                             <p class="fs-4"><?php echo $contentPage['languages_name']?></p>
                         </div>
@@ -135,10 +166,13 @@ $illustratorList = $gamePage->getFeatureContentById($id, 'illustrator');
             </section>
 
 
-            <section class="col-6">
+            <section class="col col-lg-6 order-md-2 order-1">
                 <header>
                     <article class="mb-4">
-                        <div>
+                        <div class="d-flex flex-column">
+                            <div class="card-img mt-3 d-flex justify-content-center d-md-none">
+                                <img src="uploads/products/<?php echo $contentPage['game_sticker']?>" class="img-fluid" width="200" height="180" alt="<?php echo $contentPage['game_name'] ?>">
+                            </div>
                             <h1 class="my-4"><?php echo $contentPage['game_name'] ?></h1>
                             <div class="card-notation d-flex align-items-center gap-3 py-2 px-3">
                                 <div>

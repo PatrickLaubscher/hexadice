@@ -291,3 +291,32 @@ nav a svg:hover {
     to { opacity: 1; }
 }
 
+
+
+/* Responsive */
+
+
+@media screen and (max-width:1440px) {
+
+
+}
+@media screen and (max-width:1200px) {
+
+
+}
+@media screen and (max-width:1024px) {
+
+
+}
+@media screen and (max-width:991px) {
+
+}
+
+@media screen and (max-width:767px) {
+
+
+}
+@media screen and (max-width:576px) {
+
+
+}

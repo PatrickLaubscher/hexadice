@@ -36,14 +36,14 @@ if(!empty($_SESSION['cart'])) {
                         <div class="rounded-3 my-2">
                             <div class="p-2">
                                 <div class="row d-flex justify-content-between align-items-center">
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                    <div class="col-md-2 col-lg-2 col-xl-2 d-flex justify-content-center">
                                         <img src="uploads/products/<?php echo $article['game_sticker'];?>"
                                         class="img-fluid rounded-3" alt="<?php echo $article['game_name'];?>">
                                     </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <div class="col-md-3 col-lg-3 col-xl-3 my-2 d-flex justify-content-center">
                                         <p class="lead fw-normal mb-2"><?php echo $article['game_name'];?></p>
                                     </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex justify-content-end mb-2">
                                         <input min="1" name="game_qty" value="<?php echo $qty; ?>" size="2">
                                         <form method="post" action="process/add_qty.php">
                                             <input type="text" name="game_id" class="d-none" value="<?php echo $id; ?>">
@@ -59,10 +59,10 @@ if(!empty($_SESSION['cart'])) {
                                         </form>
                                     </div>
                 
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 d-flex justify-content-end">
                                         <h5 class="mb-0"><?php echo $article['game_price'];?> €</h5>
                                     </div>
-                                    <div class="col-md-3 col-lg-2 col-xl-2">
+                                    <div class="col-md-3 col-lg-2 col-xl-2 d-flex justify-content-end">
                                             ss-Total
                                             <?php echo $ssTotal = $article['game_price'] * $qty; ?> €
                                     </div>
@@ -71,7 +71,7 @@ if(!empty($_SESSION['cart'])) {
                             </div>
                         </div>
                     <?php }} ?>
-                    <div class="mb-4">
+                    <div class="col mb-4">
                         <div class="p-4 d-flex flex-column gap-1">
                             <div class="form-outline col-7 col-md-5 col-lg-4">
                                 <label class="form-label">Code promo</label>
@@ -88,7 +88,7 @@ if(!empty($_SESSION['cart'])) {
                     </div>
                     <div class="card-body d-flex justify-content-end">
                         <form method="post" action="process/validation_cart.php">
-                        <input type="submit" class="btn btn-warning btn-block btn-lg btn1" value="Valider le panier">
+                        <input type="submit" class="btn btn-warning btn-block btn-lg btn1 my-3" value="Valider le panier">
                         </form>
                     </div>
                     <div>
