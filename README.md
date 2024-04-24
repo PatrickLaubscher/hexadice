@@ -65,7 +65,7 @@ I've tried to build up as many classes as I could. I include an interface : Prod
 
 ### Autoloader 
 
-Following the course of Graphikarts on PHP POO, I've tried to use the Autoloader on it's simple shape. In that and to clear the code at maximum, 
+Following the course of Graphikarts on PHP OOP, I've tried to use the Autoloader on it's simple shape. In that and to clear the code at maximum, 
 
 
 ### Database singleton
