@@ -86,7 +86,8 @@ class GameContent implements ProductContent
         INNER JOIN age_mini ON id_age_mini = age_mini_id
         INNER JOIN duration ON id_duration = duration_id
         INNER JOIN languages ON id_languages = languages_id
-        INNER JOIN editor ON id_editor = editor_id WHERE game_id = $id");
+        INNER JOIN editor ON id_editor = editor_id WHERE game_id = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $game = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -109,7 +110,8 @@ class GameContent implements ProductContent
         $columnTableJoin = 'id_' . $feature;
         $columnFeature = $feature . '_id';
 
-        $stmt = $this->db->prepare("SELECT $column FROM $tableJoin INNER JOIN $feature ON $columnFeature = $columnTableJoin WHERE id_game = $id");
+        $stmt = $this->db->prepare("SELECT $column FROM $tableJoin INNER JOIN $feature ON $columnFeature = $columnTableJoin WHERE id_game = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $featureList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $featureList;
@@ -125,7 +127,8 @@ class GameContent implements ProductContent
     public function getIdByName (string $name): int
     {
         
-        $stmt = $this->db->prepare("SELECT game_id FROM game WHERE game_name = '$name'");
+        $stmt = $this->db->prepare("SELECT game_id FROM game WHERE game_name = ':name'");
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->execute();
         $gameId = $stmt->fetch(PDO::FETCH_COLUMN);
 
@@ -144,7 +147,8 @@ class GameContent implements ProductContent
     */
     public function findGamesByName (string $name): array 
     {
-        $stmt = $this->db->prepare("SELECT * FROM game WHERE game_name LIKE '%$name%'");
+        $stmt = $this->db->prepare("SELECT * FROM game WHERE game_name LIKE '%:name%'");
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->execute();
         $gameListResult = $stmt->fetchAll(PDO::FETCH_ASSOC);
         asort($gameListResult);
@@ -190,17 +194,25 @@ class GameContent implements ProductContent
             $value = addslashes($value);
 
             if(!empty($searchParams['game_name'] && $param =='game_name')) {
-                $query .= "game_name LIKE '%$value%' AND ";
-            } 
+                $query .= "game_name LIKE ? AND ";
+            } else {
+                $query .= $param . "_name LIKE ? AND ";
+            }
 
-            if($param != 'game_name'){
-            $query .= $param . "_name LIKE '$value' AND ";
-            }  
-            
+            // if($param != 'game_name'){
+            // $query .= $param . "_name LIKE '$value' AND ";
+            // }  
+            $bindings[] = "%$value%";
         }
+
         $query = rtrim($query, " AND ");
 
         $stmt = $this->db->prepare($query);
+
+        foreach ($bindings as $key => $value) {
+            $stmt->bindValue($key + 1, $value);
+        }
+
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -220,8 +232,9 @@ class GameContent implements ProductContent
      */
     public function setStickerGame (string $filename, int $id ): bool
     {
-        $query= "UPDATE game SET game_sticker = :game_sticker WHERE game_id = '$id'";
+        $query= "UPDATE game SET game_sticker = :game_sticker WHERE game_id = ':id'";
         $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->bindValue(':game_sticker', $filename, PDO::PARAM_STR);
         
         return $stmt->execute();
@@ -242,8 +255,9 @@ class GameContent implements ProductContent
     {
         $pictureColumn = 'game_picture' . $pictureNb;
 
-        $query= "UPDATE game SET $pictureColumn = :game_sticker WHERE game_id = '$id'";
+        $query= "UPDATE game SET $pictureColumn = :game_sticker WHERE game_id = ':id'";
         $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->bindValue(':game_sticker', $filename, PDO::PARAM_STR);
         
         return $stmt->execute();
@@ -280,8 +294,9 @@ class GameContent implements ProductContent
      */
     public function updateGameContentById (int $id, string $column, string|int $value): bool
     {
-        $query= "UPDATE game SET $column = :column WHERE game_id = '$id'";
+        $query= "UPDATE game SET $column = :column WHERE game_id = ':id'";
         $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':column', $value, PDO::PARAM_STR);
 
         return $stmt->execute();
