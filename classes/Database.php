@@ -30,7 +30,12 @@ class Database
         ] = parse_ini_file(__DIR__ . '/../config/db.ini');
 
         $this->dsn = "mysql:host=$this->host;port=$this->port;dbname=$this->dbName;charset=$this->charset";
-        $this->pdo = new PDO($this->dsn, $this->dbUser, $this->dbPassword);
+        try {
+            $this->pdo = new PDO($this->dsn, $this->dbUser, $this->dbPassword);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la connexion avec la base de données". $e->getMessage());
+        }
     }
 
 

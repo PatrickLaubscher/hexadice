@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Productcontent.php';
+require_once __DIR__ . '/ProductContent.php';
 
 
 class GameContent implements ProductContent
@@ -63,12 +63,16 @@ class GameContent implements ProductContent
      */
     public function getAllContent(): array
     {
-
-        $stmt = $this->db->prepare("SELECT * FROM game");
-        $stmt->execute();
-        $gameList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $gameList;
+        try {
+            $stmt = Database::getInstance()->prepare("SELECT * FROM game");
+            $stmt->execute();
+            $gameList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $gameList;
+        } catch (PDOException $e) { 
+            echo "Erreur lors de la récupération des données : " . $e->getMessage();
+            return [];
+        }
+ 
     }
 
 
